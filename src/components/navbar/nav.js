@@ -14,7 +14,7 @@ export default function Navbar() {
                 <Link href="/"><p>Join the team</p></Link>
             </div>
             <div className="flex flex-row font-bold text-[16px] text-white gap-5">
-                <button className="border border-solid-[8px] rounded-md w-fit h-fit p-2 border-[#613DE4]">Sign In</button>
+                <Link href={"/login"}><button className="border border-solid-[8px] rounded-md w-fit h-fit p-2 border-[#613DE4]">Sign In</button></Link>
                 <button className="bg-[#613DE4] rounded-md w-fit h-fit p-2">Get started</button>
             </div>
         </div>

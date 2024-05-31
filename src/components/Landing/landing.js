@@ -18,7 +18,7 @@ export default function Landing() {
 
             <div className="h-[50px] flex flex-row justify-between items-center w-96 border border-solid-[16px] border-[#1D2939] rounded-md p-2 mt-10">
                 <input type="email" placeholder="Enter your Email" className="placeholder:text-[#9CA3AF] outline-none focus:outline-none text-start bg-transparent text-white w-60"/>
-                <button className="bg-[#613DE4] rounded-md p-2 text-white font-bold h-9">Get started</button>
+                <button className="bg-[#613DE4] rounded-md p-2 text-white font-bold h-9 text-center flex justify-center items-center">Get started</button>
             </div>
 
             <p className="text-white font-thin mt-8">No waitlist - available for download now</p>
