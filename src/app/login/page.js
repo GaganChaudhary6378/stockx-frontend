@@ -1,6 +1,5 @@
 'use client'
-import SignIn from "@/components/signIn/page";
-import SignUp from "@/components/signUp/page";
+
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
 import { FaGoogle } from "react-icons/fa";
@@ -54,7 +53,7 @@ export default function Login() {
                                     <div className="space-y-3">
                                         <p className="text-white">Password</p>
                                         <div className="border border-solid-[8px] border-[#475467] w-full p-2 text-white flex flex-row justify-between items-center">
-                                            <input type={`${visible == false ? 'password' : 'text'}`} placeholder="username@gmail.com" className="w-full outline-none bg-transparent" onChange={(e) => setPassword(e.target.value)} />
+                                            <input type={`${visible == false ? 'password' : 'text'}`} placeholder="Enter your password" className="w-full outline-none bg-transparent" onChange={(e) => setPassword(e.target.value)} />
                                             {visible == false ? <BiSolidHide onClick={() => setVisible(!visible)} className="cursor-pointer" /> : <BiSolidShow onClick={() => setVisible(!visible)} className="cursor-pointer" />}
                                         </div>
                                         <p className="text-[#613DE4] cursor-pointer">Forgot Password?</p>
@@ -86,7 +85,7 @@ export default function Login() {
                                         <div className="space-y-3">
                                             <p className="text-white">Password</p>
                                             <div className="border border-solid-[8px] border-[#475467] w-full p-2 text-white flex flex-row justify-between items-center">
-                                                <input type={`${visible == false ? 'password' : 'text'}`} placeholder="username@gmail.com" className="w-full outline-none bg-transparent" onChange={(e) => setPassword(e.target.value)} />
+                                                <input type={`${visible == false ? 'password' : 'text'}`} placeholder="Enter your password" className="w-full outline-none bg-transparent" onChange={(e) => setPassword(e.target.value)} />
                                                 {visible == false ? <BiSolidHide onClick={() => setVisible(!visible)} className="cursor-pointer" /> : <BiSolidShow onClick={() => setVisible(!visible)} className="cursor-pointer" />}
                                             </div>
 
