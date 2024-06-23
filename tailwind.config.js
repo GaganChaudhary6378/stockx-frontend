@@ -10,6 +10,8 @@ module.exports = {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         'hero': "url('/assets/images/landing/landing.svg')",
+        'buySell': "url('/assets/images/earn/earn.svg')",
+        'signUp':"url('/assets/images/signup/signUp.svg')",
         'signUp':"url('/assets/images/signup/signUp.svg')",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
