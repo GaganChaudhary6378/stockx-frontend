@@ -5,16 +5,19 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 export default function Navbar() {
     const router = useRouter();
-    const getToken = localStorage.getItem("accessToken");
-    function submit () {
-        if(getToken){
+    let getToken;
+    if (typeof window !== 'undefined') {
+        getToken = localStorage.getItem("accessToken");
+    }
+    function submit() {
+        if (getToken) {
             router.push("/profile");
         }
     }
     return (
         <div className="flex flex-row justify-between items-center w-screen pt-3 pl-6 pr-6 bg-[#101828]">
             <div className="">
-                <Image src={"/assets/images/navbar/Logo.svg"} width={100} height={40}/>
+                <Image src={"/assets/images/navbar/Logo.svg"} width={100} height={40} />
             </div>
             <div className="flex flex-row space-x-6 text-white text-[14px]">
                 <Link href="/home"><p>About</p></Link>
