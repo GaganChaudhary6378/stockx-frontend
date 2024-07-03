@@ -57,11 +57,12 @@ export default function Login() {
                 setTimeout(() => {
                     toast.success("User logged in successfully");
                 }, 2000); // Add a 2-second delay
-                
-                localStorage.setItem("accessToken",data.data.accessToken);
-                localStorage.setItem("refreshToken",data.data.refreshToken);
 
-                
+                if (typeof window !== 'undefined') {
+                    localStorage.setItem("accessToken", data.data.accessToken);
+                    localStorage.setItem("refreshToken", data.data.refreshToken);
+                }
+
                 router.push("/profile");
 
                 setIndex(0);
