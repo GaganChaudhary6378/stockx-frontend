@@ -3,8 +3,9 @@
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
 import { FaGoogle } from "react-icons/fa";
-
-import React from "react";
+import toast, { Toaster } from 'react-hot-toast';
+import React, { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function Login() {
     const [index, setIndex] = useState(0);
     const [checked, setChecked] = useState();
     const [visible, setVisible] = useState(false);
-
+    const router = useRouter();
     console.log(email, "email");
     console.log(password, "pass");
 
@@ -21,8 +22,68 @@ export default function Login() {
         password: password,
     }
 
+    const submitdata = async () => {
+        console.log("submit function clicked")
+        const res = await fetch("http://localhost:8000/api/v1/users/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(obj),
+        })
+        if (res.ok) {
+            setTimeout(() => {
+                toast.success("User registered successfully")
+            }, 2000); // add a 2-second delay
+            setIndex(0);
+        }
+    };
+
+
+    const loginUser = async () => {
+        console.log("login function clicked");
+        try {
+            const res = await fetch("http://localhost:8000/api/v1/users/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(obj),
+            });
+            if (res.ok) {
+                const data = await res.json(); // Convert the readable stream to JSON
+                console.log(data); // Log the data to see the response
+
+                setTimeout(() => {
+                    toast.success("User logged in successfully");
+                }, 2000); // Add a 2-second delay
+                
+                localStorage.setItem("accessToken",data.data.accessToken);
+                localStorage.setItem("refreshToken",data.data.refreshToken);
+
+                
+                router.push("/profile");
+
+                setIndex(0);
+            } else {
+                // Handle errors
+                const errorData = await res.json(); // Convert the readable stream to JSON
+                toast.error(`Error: ${errorData.message}`);
+            }
+        } catch (error) {
+            console.error("Error while logging in:", error);
+            toast.error("An error occurred while logging in");
+        }
+    }
+
+
+
     return (
         <div className="flex flex-row h-screen">
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
             <div className="w-1/2 bg-signUp">
 
             </div>
@@ -59,7 +120,7 @@ export default function Login() {
                                         <p className="text-[#613DE4] cursor-pointer">Forgot Password?</p>
                                     </div>
 
-                                    <button className="bg-[#613DE4] rounded-md w-full text-white h-fit p-2">Get started</button>
+                                    <button className="bg-[#613DE4] rounded-md w-full text-white h-fit p-2" onClick={loginUser}>Get started</button>
 
                                     <div className="text-white text-center">or</div>
                                     <button className="bg-[#101828] rounded-md w-full text-white h-fit p-2 flex flex-row gap-4 justify-center items-center"><FaGoogle />Sign in with Google</button>
@@ -91,7 +152,7 @@ export default function Login() {
 
                                         </div>
 
-                                        <button className="bg-[#613DE4] rounded-md w-full text-white h-fit p-2">Get started</button>
+                                        <button className="bg-[#613DE4] rounded-md w-full text-white h-fit p-2" onClick={submitdata}>Get started</button>
 
                                         <div className="text-white text-center">or</div>
                                         <button className="bg-[#101828] rounded-md w-full text-white h-fit p-2 flex flex-row gap-4 justify-center items-center"><FaGoogle />Sign in with Google</button>
