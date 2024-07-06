@@ -4,6 +4,7 @@ import Landing from "@/components/Landing/landing";
 import Feature from "@/components/feautures/page";
 import Earn from "@/components/earn/earn";
 import Join from "@/components/joinTeam/join";
+import Footer from "@/components/footer/footer";
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -26,6 +27,9 @@ export default function Home() {
         </div>
         <div className="bg-[#101828]">
           <Join />
+        </div>
+        <div className="bg-[#101828]">
+          <Footer/>
         </div>
       </div>
     </div>

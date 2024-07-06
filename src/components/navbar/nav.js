@@ -8,7 +8,7 @@ export default function Navbar() {
                 <Image src={"/assets/images/navbar/Logo.svg"} width={100} height={40}/>
             </div>
             <div className="flex flex-row space-x-6 text-white text-[14px]">
-                <Link href="/"><p>About</p></Link>
+                <Link href="/home"><p>About</p></Link>
                 <Link href="/"><p>Earn</p></Link>
                 <Link href="/"><p>Prices</p></Link>
                 <Link href="/"><p>Join the team</p></Link>
