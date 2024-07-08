@@ -15,7 +15,7 @@ function TradingViewChart() {
             {
                 "width": "880",
                 "height": "410",
-                "symbol": "NASDAQ:AAPL",
+                "symbol": "BTC",
                 "interval": "1",
                 "timezone": "Etc/UTC",
                 "theme": "dark",
