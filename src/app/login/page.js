@@ -24,7 +24,7 @@ export default function Login() {
 
     const submitdata = async () => {
         console.log("submit function clicked")
-        const res = await fetch("http://localhost:8000/api/v1/users/register", {
+        const res = await fetch("http://localhost:8001/api/v1/users/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -43,7 +43,7 @@ export default function Login() {
     const loginUser = async () => {
         console.log("login function clicked");
         try {
-            const res = await fetch("http://localhost:8000/api/v1/users/login", {
+            const res = await fetch("http://localhost:8001/api/v1/users/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
