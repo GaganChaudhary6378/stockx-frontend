@@ -208,82 +208,57 @@
 //         </div>
 //     );
 // }
-
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import io from 'socket.io-client';
 import { IoMdArrowRoundForward } from "react-icons/io";
 import ReactTyped from "react-typed"; // Corrected import
-
-
-const socket = io("http://localhost:8000"); // Initialize socket outside component
+import { BorderBeam } from "../magicui/border-beam";
 
 export default function UserChat({ content }) { // Destructure content from props
-    const [userQuery, setUserQuery] = useState(content); // Initialize state with content
+    const [userQuery, setUserQuery] = useState(""); // Initialize state with content
     const [loading, setLoading] = useState(false);
     const [responseMessage, setResponseMessage] = useState([]);
     const [currentMessage, setCurrentMessage] = useState(""); // State to hold the current message
-
-
-
-    useEffect(() => {
-        setUserQuery(content);
-    }, [content]);
+    const initialLoad = useRef(true); // useRef to track initial load
 
     useEffect(() => {
-        let isMounted = true; // Flag to track if component is mounted
-
-        // Set up event listener for 'chat message' event from server
-        socket.on('chat message', (msg) => {
-            console.log(msg);
-
-            // Use setTimeout to add delay
-            setTimeout(() => {
-                if (isMounted) { // Only update state if component is still mounted
-                    setCurrentMessage(prev => prev + msg + ' '); // Append new chunk to current message
-                    setResponseMessage(prev => [...prev, { role: 'bot', content: msg}]); // Append bot response
-                }
-            }, 500); // 500ms delay
-        });
-
-        // Clean up function
-        return () => {
-            isMounted = false; // Set flag to false when component unmounts
-            socket.off('chat message');
-        };
-    }, []);
-
-
-    useEffect(() => {
-        if (userQuery && !loading) {
+        if (initialLoad.current) {
             sendMessage();
+            initialLoad.current = false; // Set initialLoad to false after the first call
         }
-    }, [userQuery, loading]); // Run useEffect when userQuery or loading state changes
+    }, []); // Empty dependency array ensures this effect runs only once
 
     const sendMessage = async () => {
         try {
             setLoading(true);
             const userMessage = {
-                "role": "user",
-                "content": userQuery,
+                role: "user",
+                content: userQuery ? userQuery : content,
             };
             setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
 
-            const response = await fetch("http://localhost:8000/api/v1/users/getStockInfo", {
+            const response = await fetch("http://localhost:8001/api/v1/users/getStockInfo", {
                 method: "POST", // Adjust to POST if your logic requires it.
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    question: userQuery, // Send your question data in the body
+                    question: userQuery ? userQuery : content, // Send your question data in the body
                 }),
             });
 
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-
+            const data = await response.json();
+            console.log(data.data);
             setLoading(false);
+            const obj = {
+                role: "bot",
+                content: data.data,
+            };
+            setResponseMessage(prev => [...prev, obj]);
             setUserQuery(""); // Clear input field
 
         } catch (error) {
@@ -292,35 +267,51 @@ export default function UserChat({ content }) { // Destructure content from prop
         }
     };
 
-    console.log(responseMessage)
+    console.log(responseMessage);
 
     return (
         <div className="flex flex-col justify-start items-center min-h-screen w-screen gap-4 bg-black text-white">
-            <div className="bg-hero flex flex-col justify-between items-center w-full pt-[10rem]">
-                This is my main chat page
-                <div>
+            <div className="bg-hero flex flex-col justify-between items-center w-full p-[4rem]">
+
+                <div className="flex flex-col gap-6">
                     {responseMessage.map((msg, index) => (
-                        <p key={index} className={msg.role === 'bot' ? "text-green-500 flex flex-row" : "text-blue-500"}>
+                        <p key={index} className={msg.role === 'bot' ? "text-green-500 flex flex-row " : "text-blue-500 flex flex-row justify-end"}>
                             {msg.content}
                         </p>
                     ))}
                     {/* Display current streaming message */}
-                    <p className="text-blue-500">{currentMessage}</p>
+
                 </div>
-                <textarea
-                    placeholder="Enter your query here"
-                    value={userQuery}
-                    onChange={(e) => setUserQuery(e.target.value)}
-                    className="outline-none flex-grow h-auto bg-transparent font-bold font-mono text-black resize-none"
-                    rows={1}
-                    onInput={e => {
-                        e.target.style.height = 'auto';
-                        e.target.style.height = `${e.target.scrollHeight}px`;
-                    }}
-                />
+
+                <div className="flex flex-col w-full items-center px-4 pb-4 pt-[10rem]">
+                    <div className="relative flex w-[68rem] flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+                        <BorderBeam size={105} duration={12} delay={9} />
+                        <div className="flex flex-row justify-between items-end max-w-[68rem] w-full p-4 rounded-md bg-transparent">
+                            {/* input box */}
+
+                            <textarea
+                                placeholder="Enter the information of the stocks here."
+                                // disabled={loading}
+                                className="outline-none flex-grow h-auto bg-transparent font-bold font-mono text-white resize-none"
+                                rows={1}
+
+                                onChange={(e) => setUserQuery(e.target.value)}
+                                onInput={(e) => {
+                                    e.target.style.height = 'auto';
+                                    e.target.style.height = `${e.target.scrollHeight}px`;
+                                }}
+                            />
+                            <IoMdArrowRoundForward
+                                className="text-2xl text-white font-bold ml-4 hover:cursor-pointer"
+                                onClick={sendMessage}
+                            />
+                        </div>
+                    </div>
+
+
+                </div>
                 {/* <IoMdArrowRoundForward className="text-2xl text-black font-bold ml-4" onClick={sendMessage} /> */}
             </div>
         </div>
     );
 }
-

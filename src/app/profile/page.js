@@ -31,7 +31,7 @@ export default function Profile() {
     }
     const handleSubmit = async () => {
         try {
-            const res = await fetch("http://localhost:8000/api/v1/users/updateProfile", {
+            const res = await fetch("http://localhost:8001/api/v1/users/updateProfile", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

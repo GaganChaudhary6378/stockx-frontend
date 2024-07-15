@@ -9,7 +9,7 @@ export default function Paisa() {
     }
 
     const apiCall = async () => {
-        const url =`https://dev-openapi.5paisa.com/WebVendorLogin/VLogin/Index?VendorKey=${getToken}&ResponseURL=${"http://localhost:3000/profile"}`;
+        const url =`https://dev-openapi.5paisa.com/WebVendorLogin/VLogin/Index?VendorKey=${getToken}&ResponseURL=${"http://localhost:3001/profile"}`;
         router.push(url);
         console.log(res)
     }
