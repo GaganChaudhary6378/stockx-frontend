@@ -13,15 +13,12 @@ export default function Home() {
         <div className="flex items-center justify-center bg-[#101828] relative ">
           <Landing />
         </div>
-        <div className="bg-white relative">
-          <Feature />
-        </div>
         <img
-          src="/assets/images/landing/dash.svg"
-          alt="Shared Image"
-          className="absolute top-[14%] left-1/2 transform -translate-x-1/2 w-[1194px] h-[776px] z-0"
-          style={{ clipPath: "inset(0 0 0 0)" }} // Adjust clipPath if needed
-        />
+            src="/assets/images/landing/dash.svg"
+            alt="Shared Image"
+            className="absolute top-[17%] left-1/2 transform -translate-x-1/2 2xl:w-[1194px] 2xl:h-[676px] w-[330px] z-0"
+            style={{ clipPath: "inset(0 0 0 0)" }} // Adjust clipPath if needed
+          />
         <div className="bg-[#101828]">
           <Earn />
         </div>
@@ -29,7 +26,7 @@ export default function Home() {
           <Join />
         </div>
         <div className="bg-[#101828]">
-          <Footer/>
+          <Footer />
         </div>
       </div>
     </div>

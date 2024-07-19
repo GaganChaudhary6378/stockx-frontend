@@ -1,11 +1,20 @@
 "use client";
 import React, { useEffect, useRef, useState } from 'react';
-import SideBar from "@/components/SideBar";
-import Graph from "@/components/Chart";
+import MarketSideBar from '@/components/MarketSideBar';
+import { useSelector } from 'react-redux';
+import TradingViewWidget from '@/components/TradingViewWidget';
 
 function TradingViewChart() {
     const container = useRef();
+    const [selectedCoinId, setSelectedCoinId]= useState("BTC")
+    const store= useSelector((store)=> store)
+    console.log("store", store)
+    useEffect(() => {
+        console.log("coin id",selectedCoinId)
+        setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
+    }, [store?.coin?.symbol]);
 
+    
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
@@ -15,7 +24,7 @@ function TradingViewChart() {
             {
                 "width": "880",
                 "height": "410",
-                "symbol": "BTC",
+                "symbol": "${selectedCoinId}",
                 "interval": "1",
                 "timezone": "Etc/UTC",
                 "theme": "dark",
@@ -41,30 +50,10 @@ function TradingViewChart() {
 
 function Market() {
    
-
-    // const chartOptions = {
-    //     chart: {
-    //         type: 'candlestick',
-    //         height: 350
-    //     },
-    //     title: {
-    //         text: 'BTC/USD Candlestick Chart',
-    //         align: 'left'
-    //     },
-    //     xaxis: {
-    //         type: 'datetime',
-    //     },
-    //     yaxis: {
-    //         tooltip: {
-    //             enabled: true
-    //         }
-    //     }
-    // };
-
     return (
-        <div className="bg-[#1D2939] text-white min-h-screen flex">
-            <div className="w-64">
-                <SideBar page="home" />
+        <div className="bg-[#1D2939] text-white min-h-screen 2xl:flex">
+            <div className="w-full 2xl:w-[350px]">
+                <MarketSideBar page="market" />
             </div>
             <main className="flex-1 p-5">
                 <header className="flex justify-between items-center mb-10">
@@ -74,8 +63,8 @@ function Market() {
                         <div className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">Wallet</div>
                     </div>
                 </header>
-                <section className="mb-4 flex">
-                    <div className="border border-gray-500 p-5 rounded-lg mx-1">
+                <section className="mb-4 2xl:flex">
+                    <div className="border border-gray-500 my-2 p-5 rounded-lg mx-1">
                         <div className="flex justify-between">
                             <h2 className="text-[16px] mb-2">US WASDE Report</h2>
                             <p className="text-gray-400">01:27:04</p>
@@ -134,59 +123,13 @@ function Market() {
                     </div>
                 </section>
             </main>
-            <aside className="w-80 bg-[#101828] p-5">
-                <div className="w-full border border-gray-600 py-2 pl-4 mb-4">
+            <aside className="2xl:w-80 flex-col justify-center bg-[#101828] ">
+                <div className="mx-5 mt-5 border border-gray-600 py-2 pl-4 mb-4">
                     User Name
                 </div>
-                <header className="flex items-center mb-5">
-                    <h2 className="text-xl font-bold">Articles List</h2>
-                    <button className="ml-auto bg-purple-500 py-1 px-3 rounded-full">
-                        Filter
-                    </button>
-                </header>
-                <div className="space-y-5">
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                        <h3 className="text-lg font-bold mb-2">
-                            Gold futures rose in price during American trading
-                        </h3>
-                        <p className="text-gray-400 mb-2">20 Oct, 2023 09:22</p>
-                        <p className="text-gray-400">
-                            USD index futures, which measure the US dollar against a basket of
-                            six major currencies...
-                        </p>
-                        <button className="mt-3 bg-purple-500 py-1 px-3 rounded-full">
-                            Read
-                        </button>
-                    </div>
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                        <h3 className="text-lg font-bold mb-2">
-                            Adobe showed off a color-changing dress
-                        </h3>
-                        <p className="text-gray-400 mb-2">Can change colors...</p>
-                    </div>
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                        <h3 className="text-lg font-bold mb-2">
-                            Twitter begins trading shares on its platform
-                        </h3>
-                        <p className="text-gray-400 mb-2">
-                            You can now view it in real time...
-                        </p>
-                    </div>
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                        <h3 className="text-lg font-bold mb-2">
-                            The dollar fell ahead of the release of key US data
-                        </h3>
-                        <p className="text-gray-400 mb-2">
-                            Today the dollar fell against...
-                        </p>
-                    </div>
-                    <div className="bg-gray-700 p-4 rounded-lg">
-                        <h3 className="text-lg font-bold mb-2">
-                            3 Bitcoin wallets from the Satoshi era
-                        </h3>
-                        <p className="text-gray-400 mb-2">According to BitInfoCharts...</p>
-                    </div>
-                </div>
+               <div className="w-full flex justify-center">
+                <TradingViewWidget width={250} height={850}/>
+               </div>
             </aside>
         </div>
     );
