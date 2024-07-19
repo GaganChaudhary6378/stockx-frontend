@@ -49,7 +49,7 @@ const SideBar = ({page}) => {
           </li>
         </ul>
       </nav>
-      <div className="fixed left-2 bottom-0">
+      <div >
         <div className="flex pb-2">
           <span className="pt-1">
             <IoIosHelpCircleOutline />
