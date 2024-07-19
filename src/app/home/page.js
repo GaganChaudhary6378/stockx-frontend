@@ -10,8 +10,8 @@ import { AiOutlineBars } from "react-icons/ai";
 
 function Page() {
   const [data, setData] = useState();
-  const [coins, setCoins] = useState([])
-
+  const [coins, setCoins] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (!data) {
@@ -26,19 +26,21 @@ function Page() {
     }
   }, [data]);
 
-  const handleVisible=()=>{
-    if(visible){
+  const handleVisible = () => {
+    if (visible) {
       setVisible(!visible)
     }
   }
 
   return (
-    <div className="bg-[#1D2939] text-white min-h-screen flex">
-      <div className="w-64">
-
+    <div onClick={handleVisible} className="bg-[#1D2939] text-white min-h-screen 2xl:flex">
+      {visible && <div className="w-64">
         <SideBar page="home" />
-      </div>
-      <main className="flex-1 p-5">
+      </div>}
+      {!visible && <div onClick={() => setVisible(!visible)} className="bg-black w-[45px] h-[45px] fixed top-2 left-2" >
+        <AiOutlineBars size={40} />
+      </div>}
+      <main onClick={handleVisible} className="flex-1 pt-[60px] p-5">
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-2xl">Today News</h1>
           <div className="flex">
@@ -73,7 +75,7 @@ function Page() {
           </div>
         </section>
         <section>
-          <section className="border border-gray-600 rounded-lg pl-2 ml-2 h-[400px] py-4 mb-4 w-full">
+          <section className="border border-gray-600 rounded-lg pl-2 ml-2 2xl:h-[400px] py-4 mb-4 2xl:w-full w-[330px]">
             {data && <Graph chartPrices={data?.price} />}
           </section>
         </section>
