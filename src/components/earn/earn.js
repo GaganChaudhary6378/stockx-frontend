@@ -8,7 +8,7 @@ export default function Earn() {
                     Earn more money when you shop.
                 </div>
                 <div className="font-thin">
-                    <p>Earn bonus investments by shopping at thousand of top brands - including ones you likely shop at anyway.</p>
+                    <p className="2xl:w-[600px] text-[12px] 2xl:text-[16px]">Earn bonus investments by shopping at thousand of top brands - including ones you likely shop at anyway.</p>
                 </div>
             </div>
             <div className="h-full">

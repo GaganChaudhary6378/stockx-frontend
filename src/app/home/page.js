@@ -5,43 +5,55 @@ import { LineChart, Line, CartesianGrid, XAxis, YAxis } from "recharts";
 import SideBar from "@/components/SideBar";
 import fetchCoins from "@/components/fetchCoins";
 import Graph from "@/components/Chart";
+import TradingViewWidget from "@/components/TradingViewWidget";
+import { AiOutlineBars } from "react-icons/ai";
 
 function Page() {
-
   const [data, setData] = useState();
-  const [coins, setCoins] = useState([])
- 
+  const [coins, setCoins] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (!data) {
       const fetchData = async () => {
         const coins = await fetchCoins();
-        console.log("coins", coins)
-        setCoins(coins)
-        console.log("bit coin price", coins[10]?.sparkline_in_7d)
+        console.log("coins", coins);
+        setCoins(coins);
+        console.log("bit coin price", coins[10]?.sparkline_in_7d);
         setData(coins[0]?.sparkline_in_7d);
       };
       fetchData();
     }
   }, [data]);
 
+  const handleVisible=()=>{
+    if(visible){
+      setVisible(!visible)
+    }
+  }
 
   return (
-    <div className="bg-[#1D2939] text-white min-h-screen flex">
-      <div className="w-64">
-
-      <SideBar page="home" />
-      </div>
-      <main className="flex-1 p-5">
+    <div onClick={handleVisible} className="bg-[#1D2939] text-white min-h-screen 2xl:flex">
+      {visible && <div className="w-64">
+        <SideBar page="home" />
+      </div>}
+      {!visible && <div onClick={()=> setVisible(!visible)} className="bg-black w-[45px] h-[45px] fixed top-2 left-2" >
+        <AiOutlineBars size={40} />
+      </div>}
+      <main onClick={handleVisible} className="flex-1 pt-[60px] p-5">
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-2xl">Today News</h1>
           <div className="flex">
-            <div className=" px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">Home</div>
-            <div className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">Wallet</div>
+            <div className=" px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">
+              Home
+            </div>
+            <div className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
+              Wallet
+            </div>
           </div>
         </header>
-        <section className="mb-4 flex">
-          <div className="border border-gray-500 p-5 rounded-lg mx-1">
+        <section className="mb-4 2xl:flex">
+          <div className="border my-2 border-gray-500 p-5 rounded-lg mx-1">
             <div className="flex justify-between">
               <h2 className="text-[16px] mb-2">US WASDE Report</h2>
               <p className="text-gray-400">01:27:04</p>
@@ -63,8 +75,8 @@ function Page() {
           </div>
         </section>
         <section>
-          <section className="border border-gray-600 rounded-lg pl-2 ml-2 h-[400px] py-4 mb-4 w-full">
-            {data && <Graph chartPrices={data?.price}/>}
+          <section className="border border-gray-600 rounded-lg pl-2 ml-2 2xl:h-[400px] py-4 mb-4 2xl:w-full w-[330px]">
+            {data && <Graph chartPrices={data?.price} />}
           </section>
         </section>
         <section className="border border-gray-600 p-5 rounded-lg text-gray-400">
@@ -118,58 +130,12 @@ function Page() {
           </div>
         </section>
       </main>
-      <aside className="w-80 bg-[#101828] p-5">
-        <div className="w-full border border-gray-600 py-2 pl-4 mb-4">
+      <aside className="2xl:w-80 flex-col justify-center bg-[#101828]">
+        <div className=" mt-5 mx-5 border border-gray-600 py-2 pl-4 pt-4 mb-4">
           User Name
         </div>
-        <header className="flex items-center mb-5">
-          <h2 className="text-xl font-bold">Articles List</h2>
-          <button className="ml-auto bg-purple-500 py-1 px-3 rounded-full">
-            Filter
-          </button>
-        </header>
-        <div className="space-y-5">
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              Gold futures rose in price during American trading
-            </h3>
-            <p className="text-gray-400 mb-2">20 Oct, 2023 09:22</p>
-            <p className="text-gray-400">
-              USD index futures, which measure the US dollar against a basket of
-              six major currencies...
-            </p>
-            <button className="mt-3 bg-purple-500 py-1 px-3 rounded-full">
-              Read
-            </button>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              Adobe showed off a color-changing dress
-            </h3>
-            <p className="text-gray-400 mb-2">Can change colors...</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              Twitter begins trading shares on its platform
-            </h3>
-            <p className="text-gray-400 mb-2">
-              You can now view it in real time...
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              The dollar fell ahead of the release of key US data
-            </h3>
-            <p className="text-gray-400 mb-2">
-              Today the dollar fell against...
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              3 Bitcoin wallets from the Satoshi era
-            </h3>
-            <p className="text-gray-400 mb-2">According to BitInfoCharts...</p>
-          </div>
+        <div className="w-full flex justify-center">
+          <TradingViewWidget width="100%" height={980} />
         </div>
       </aside>
     </div>

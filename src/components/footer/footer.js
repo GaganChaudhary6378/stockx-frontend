@@ -16,10 +16,10 @@ const Footer = () => {
                 <p className="mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark font-bold">
                   Innovative Solutions for Marketing, Development, and Design.
                   <br />
-                  Adress: Social Pulse studio, Amaya Complex 2nd floor, Noida Sector 62
+                  Adress: Stockx, Amaya Complex 2nd floor, Noida Sector 62
                   Uttar Pradesh, India
                   <br />
-                  Contact: 6392441428
+                  Contact: 6378446949
                 </p>
                 
               </div>

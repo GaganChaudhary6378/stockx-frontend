@@ -6,10 +6,13 @@ import SideBar from "@/components/SideBar";
 import fetchCoins from "@/components/fetchCoins";
 import Graph from "@/components/Chart";
 import { PieChart } from "react-minimal-pie-chart";
+import TradingViewWidget from "@/components/TradingViewWidget";
+import { AiOutlineBars } from "react-icons/ai";
 
 function Page() {
   const [data, setData] = useState();
   const [coins, setCoins] = useState([]);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (!data) {
@@ -24,12 +27,21 @@ function Page() {
     }
   }, [data]);
 
+  const handleVisible=()=>{
+    if(visible){
+      setVisible(!visible)
+    }
+  }
+
   return (
-    <div className="bg-[#1D2939] text-white min-h-screen flex">
-      <div className="w-64">
+    <div onClick={handleVisible} className="bg-[#1D2939] text-white min-h-screen 2xl:flex">
+      {visible && <div className="w-64">
         <SideBar page="home" />
-      </div>
-      <main className="flex-1 p-5">
+      </div>}
+      {!visible && <div onClick={()=> setVisible(!visible)} className="bg-black w-[45px] h-[45px] fixed top-2 left-2" >
+        <AiOutlineBars size={40} />
+      </div>}
+      <main onClick={handleVisible} className="flex-1 pt-[60px] p-5">
         <div>
           <header className="flex justify-between items-center mb-10">
             <h1 className="text-[18px]">Current Balance</h1>
@@ -44,7 +56,7 @@ function Page() {
           </header>
           <div className="text-[30px] relative bottom-12">$ 24536178</div>
         </div>
-        <section className="mb-4 flex">
+        <section className="mb-4 2xl:flex">
           <div className="border border-gray-600 p-5 rounded-lg mx-1">
             <div className="flex justify-between">
               <h2 className="text-[16px] mb-2">US WASDE Report</h2>
@@ -131,11 +143,11 @@ function Page() {
           </div>
         </section>
       </main>
-      <aside className="w-80 bg-[#101828] p-5">
-      <div className="w-full border border-gray-600 py-2 pl-4 mb-4">
+      <aside className="2xl:w-80 flex-col justify-center bg-[#101828]">
+        <div className="mx-5 mt-5 border border-gray-600 py-2 pl-4 mb-4">
           User Name
         </div>
-        <div className="w-full mb-4">
+        <div className="mx-[35px] mb-4">
           <PieChart
             data={[
               { title: "One", value: coins[0]?.total_supply, color: "#E34" },
@@ -143,58 +155,16 @@ function Page() {
               { title: "Three", value: coins[2]?.total_supply, color: "#6A2" },
               { title: "One", value: coins[3]?.total_supply, color: "#E38627" },
               { title: "Two", value: coins[4]?.total_supply, color: "#C13C37" },
-              { title: "Three", value: coins[5]?.total_supply, color: "#6A2135" },
+              {
+                title: "Three",
+                value: coins[5]?.total_supply,
+                color: "#6A2135",
+              },
             ]}
           />
         </div>
-        <header className="flex items-center mb-5">
-          <h2 className="text-xl font-bold">Articles List</h2>
-          <button className="ml-auto bg-purple-500 py-1 px-3 rounded-full">
-            Filter
-          </button>
-        </header>
-        <div className="space-y-5">
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              Gold futures rose in price during American trading
-            </h3>
-            <p className="text-gray-400 mb-2">20 Oct, 2023 09:22</p>
-            <p className="text-gray-400">
-              USD index futures, which measure the US dollar against a basket of
-              six major currencies...
-            </p>
-            <button className="mt-3 bg-purple-500 py-1 px-3 rounded-full">
-              Read
-            </button>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              Adobe showed off a color-changing dress
-            </h3>
-            <p className="text-gray-400 mb-2">Can change colors...</p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              Twitter begins trading shares on its platform
-            </h3>
-            <p className="text-gray-400 mb-2">
-              You can now view it in real time...
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              The dollar fell ahead of the release of key US data
-            </h3>
-            <p className="text-gray-400 mb-2">
-              Today the dollar fell against...
-            </p>
-          </div>
-          <div className="bg-gray-700 p-4 rounded-lg">
-            <h3 className="text-lg font-bold mb-2">
-              3 Bitcoin wallets from the Satoshi era
-            </h3>
-            <p className="text-gray-400 mb-2">According to BitInfoCharts...</p>
-          </div>
+        <div className="w-full flex justify-center">
+          <TradingViewWidget width={320} height={580} />
         </div>
       </aside>
     </div>
