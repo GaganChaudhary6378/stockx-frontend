@@ -80,18 +80,18 @@ export default function Login() {
 
 
     return (
-        <div className="flex flex-row h-screen">
+        <div className="flex md:flex-row sm:flex-col h-screen ">
             <Toaster
                 position="top-right"
                 reverseOrder={false}
             />
-            <div className="w-1/2 bg-signUp">
+            <div className="w-1/2 bg-signUp hidden md:block">
 
             </div>
-            <div className="w-1/2 flex justify-center items-center bg-[#1D2939]">
-                <div className="w-[516px] h-[512px] bg-transparent flex flex-col justify-center items-start">
+            <div className="md:w-1/2 flex justify-center items-center bg-[#1D2939] w-screen">
+                <div className="md:w-[516px] w-screen bg-transparent flex flex-col justify-center items-start p-3 md:gap-0 gap-9">
                     {/* Tabs */}
-                    <div className="w-full h-fit bg-[#101828] rounded-md p-2 text-white font-bold text-[16px]">
+                    <div className="md:w-full w-full h-fit bg-[#101828] rounded-md p-2 text-white font-bold text-[16px]">
                         <div className="">
                             <button className={`${index == 0 ? 'bg-[#613DE4]' : 'border border-solid-[8px] border-[#475467] '} w-1/2 h-9 rounded-l-md`} onClick={(e) => setIndex(0)}>Sign In</button>
                             <button className={`${index == 1 ? 'bg-[#613DE4] ' : 'border border-solid-[8px] border-[#475467]'} w-1/2 h-9 rounded-r-md`} onClick={(e) => setIndex(1)}>Sign Up</button>
@@ -100,11 +100,11 @@ export default function Login() {
                     </div>
                     <div className="mt-6 w-full">
                         {index == 0 ? (
-                            <div className="space-y-5 flex flex-col items-start w-full">
+                            <div className="md:space-y-5 flex flex-col items-start w-full space-y-7">
                                 <h2 className="font-bold text-white text-3xl">Welcome Back</h2>
                                 <p className="font-thin text-white">Enter your credentials to access your account</p>
 
-                                <div className="space-y-3 w-[516px]">
+                                <div className="space-y-3 md:w-[516px] w-full">
                                     <div className="space-y-3">
                                         <p className="text-white">Email</p>
                                         <div className="border border-solid-[8px] border-[#475467] w-full p-2 text-white">
@@ -136,7 +136,7 @@ export default function Login() {
                                     <h2 className="font-bold text-white text-3xl">Get Started Now</h2>
 
 
-                                    <div className="space-y-3 w-[516px]">
+                                    <div className="md:space-y-3 lg:w-[516px] w-full space-y-5">
                                         <div className="space-y-3">
                                             <p className="text-white">Email</p>
                                             <div className="border border-solid-[8px] border-[#475467] w-full p-2 text-white">

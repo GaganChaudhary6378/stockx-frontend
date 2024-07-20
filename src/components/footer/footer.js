@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="container">
           <div className="-mx-4 flex flex-wrap">
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
-              <div className="mb-12 max-w-[400px] ml-4 lg:mb-16">
+              <div className="mb-12 max-w-[400px] md:ml-4 lg:mb-16">
               <div className=" mb-4">
                 <Image src={"/assets/images/navbar/Logo.svg"} width={100} height={40}/>
             </div>
@@ -113,7 +113,7 @@ const Footer = () => {
                     </svg>
                   </a>
                 </div>
-              <p className="w-[800px] mt-10 mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark font-bold">
+              <p className="md:w-[800px] mt-10 mb-9 text-base leading-relaxed text-body-color dark:text-body-color-dark font-bold">
               Copyright © 2020 Social Pulse Sudios. All Rights Reserved
                 </p>
             </div>
