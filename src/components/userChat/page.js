@@ -275,7 +275,7 @@ export default function UserChat({ content }) { // Destructure content from prop
 
                 <div className="flex flex-col gap-6">
                     {responseMessage.map((msg, index) => (
-                        <p key={index} className={msg.role === 'bot' ? "text-green-500 flex flex-row " : "text-blue-500 flex flex-row justify-end"}>
+                        <p key={index} className={msg.role === 'bot' ? "text-green-400 flex flex-row font-mono text-sm" : "text-blue-500 flex flex-row justify-end font-bold"}>
                             {msg.content}
                         </p>
                     ))}
@@ -283,16 +283,16 @@ export default function UserChat({ content }) { // Destructure content from prop
 
                 </div>
 
-                <div className="flex flex-col w-full items-center px-4 pb-4 pt-[10rem]">
-                    <div className="relative flex w-[68rem] flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
+                <div className="flex flex-col md:w-full items-center md:px-4 md:pb-4 md:pt-[10rem] p-4 w-screen">
+                    <div className="relative flex md:w-[68rem] w-full flex-col items-center justify-center overflow-hidden rounded-lg border bg-background md:shadow-xl">
                         <BorderBeam size={105} duration={12} delay={9} />
-                        <div className="flex flex-row justify-between items-end max-w-[68rem] w-full p-4 rounded-md bg-transparent">
+                        <div className="flex flex-row justify-between items-end md:max-w-[68rem] w-full p-4 rounded-md bg-transparent">
                             {/* input box */}
 
                             <textarea
                                 placeholder="Enter the information of the stocks here."
                                 // disabled={loading}
-                                className="outline-none flex-grow h-auto bg-transparent font-bold font-mono text-white resize-none"
+                                className="outline-none flex-grow md:h-auto h-12 bg-transparent font-bold font-mono text-white resize-none"
                                 rows={1}
 
                                 onChange={(e) => setUserQuery(e.target.value)}
