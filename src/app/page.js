@@ -20,6 +20,9 @@ export default function Home() {
         <div className="flex items-center justify-center bg-[#101828] relative ">
           <Landing />
         </div>
+        <div className="bg-white relative">
+          <Feature />
+        </div>
         <img
           src="/assets/images/landing/dash.svg"
           alt="Shared Image"
