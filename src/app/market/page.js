@@ -42,7 +42,12 @@ const TradingViewChart = () => {
     const store = useSelector((store) => store);
 
     useEffect(() => {
-        setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
+        if (!store) {
+            setSelectedCoinId("BTC");
+        } else {
+            setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
+        }
+
     }, [store?.coin?.symbol]);
 
     const [chartWidth, setChartWidth] = useState(0);
@@ -85,10 +90,13 @@ const TradingViewChart = () => {
             container.current.appendChild(script);
 
             return () => {
-                container.current.innerHTML = ''; // Clean up
+                if (container.current) {
+                    container.current.innerHTML = ''; // Clean up
+                }
             };
         }
     }, [chartWidth, selectedCoinId]);
+
 
     return (
         <div ref={container} style={{ height: "400px", width: "100%" }}>
