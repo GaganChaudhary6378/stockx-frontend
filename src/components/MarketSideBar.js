@@ -3,13 +3,14 @@ import fetchCoins from "./fetchCoins";
 import MarketCoinBox from "./MarketCoinBox";
 import { useDispatch } from "react-redux";
 import { addCoin } from "./store/coinSlice";
-
+import Link from "next/link";
 const MarketSideBar = ({ page }) => {
   const [coins, setCoins] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
-  const dispatch= useDispatch();
-
-  if(coins?.length>0){
+  const [preferenceArr, setPreferenceArr] = useState([]);
+  const dispatch = useDispatch();
+  const [coinName, setCoinName] = useState("");
+  if (coins?.length > 0) {
     dispatch(addCoin(coins[activeIndex]));
   }
 
@@ -21,20 +22,22 @@ const MarketSideBar = ({ page }) => {
     fetchData();
   }, []);
 
-  const handleCoinClick = (index) => {
-    setActiveIndex(index); // Set the active index to the clicked coin
-  };
+
+
+  // console.log(preferenceArr);
 
   return (
     <aside className="w-full h-full bg-[#101828] p-5">
       <div className="flex items-center mb-5">
-        <div className="text-2xl font-bold bg-violet-600 p-2 rounded-sm">
-          Up
+        <Link href="/"><div className="text-2xl font-bold rounded-sm text-purple-300">
+          StockX
         </div>
-        <div className="ml-auto text-sm text-gray-400">32</div>
+        </Link>
+
+
       </div>
       <section>
-        <div>Market</div>
+
         <input
           type="text"
           placeholder="Search your coin"
@@ -43,15 +46,17 @@ const MarketSideBar = ({ page }) => {
         <div className="h-[750px] overflow-y-scroll no-scrollbar">
           {coins?.length > 0 &&
             coins?.map((coin, index) => (
-                <div onClick={() => handleCoinClick(index)} className="cursor-pointer">
-                    <MarketCoinBox
-                      key={index}
-                      index={index}
-                      activeIndex={activeIndex}
-                      isActive={activeIndex === index} // Pass isActive prop to determine if this box is active
-                      {...coin}
-                    />
-                </div>
+              <div onClick={() => handleCoinClick(index, coin)} className="cursor-pointer">
+                <MarketCoinBox
+                  key={index}
+                  index={index}
+                  coinName={coinName}
+                  activeIndex={activeIndex}
+                  isActive={activeIndex === index} // Pass isActive prop to determine if this box is active
+                  {...coin}
+                />
+
+              </div>
             ))}
         </div>
       </section>
