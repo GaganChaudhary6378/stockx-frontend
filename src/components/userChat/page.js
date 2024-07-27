@@ -216,13 +216,16 @@ import ReactTyped from "react-typed"; // Corrected import
 import { BorderBeam } from "../magicui/border-beam";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import toast, { Toaster } from 'react-hot-toast';
+import { useDispatch } from "react-redux";
+import { toggleState } from "../store/gptSlice";
 
-export default function UserChat({ content }) { // Destructure content from props
+export default function UserChat({ content, gpt }) { // Destructure content from props
     const [userQuery, setUserQuery] = useState(""); // Initialize state with content
     const [loading, setLoading] = useState(false);
     const [responseMessage, setResponseMessage] = useState([]);
     const [currentMessage, setCurrentMessage] = useState(""); // State to hold the current message
     const initialLoad = useRef(true); // useRef to track initial load
+    const dispatch = useDispatch()
 
     useEffect(() => {
         if (initialLoad.current) {
@@ -234,13 +237,17 @@ export default function UserChat({ content }) { // Destructure content from prop
     const sendMessage = async () => {
         try {
             setLoading(true);
-            const userMessage = {
-                role: "user",
-                content: userQuery ? userQuery : content,
-            };
-            setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
+            let userMessage;
+            if (!gpt) {
+                userMessage = {
+                    role: "user",
+                    content: userQuery ? userQuery : content,
+                };
+                setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
+            }
 
-            const response = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/getParticularStock/66a4bb716c4b04ca674678a9`, {
+            const url = `${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/${gpt ? "getParticularStock" : "getStockInfo"}`
+            const response = await fetch(url, {
                 method: "POST", // Adjust to POST if your logic requires it.
                 headers: {
                     "Content-Type": "application/json",
@@ -261,6 +268,11 @@ export default function UserChat({ content }) { // Destructure content from prop
                 role: "bot",
                 content: data.data,
             };
+
+            if (gpt) {
+                dispatch(toggleState())
+            }
+
             setResponseMessage(prev => [...prev, obj]);
             setUserQuery(""); // Clear input field
 
@@ -282,9 +294,9 @@ export default function UserChat({ content }) { // Destructure content from prop
             />
             <div className="bg-hero flex flex-col justify-between items-center w-full p-[4rem]">
 
-                <div className="flex flex-col gap-6">
+                <div className="flex w-screen flex-col gap-6">
                     {responseMessage.map((msg, index) => (
-                        <p key={index} className={msg.role === 'bot' ? "text-green-400 flex flex-row font-mono text-sm" : "text-blue-500 flex flex-row justify-end font-bold"}>
+                        <p key={index} className={msg.role === 'bot' ? "text-green-400 px-2 text-wrap flex flex-row max-w-screen font-mono text-sm" : "text-blue-500 px-2 text-wrap flex flex-row max-w-screen font-mono text-sm font-bold"}>
                             {msg.content}
                         </p>
                     ))}
@@ -303,7 +315,7 @@ export default function UserChat({ content }) { // Destructure content from prop
                                 // disabled={loading}
                                 className="outline-none flex-grow md:h-auto h-12 bg-transparent font-bold font-mono text-white resize-none"
                                 rows={1}
-
+                                value={userQuery}
                                 onChange={(e) => setUserQuery(e.target.value)}
                                 onInput={(e) => {
                                     e.target.style.height = 'auto';
@@ -316,10 +328,7 @@ export default function UserChat({ content }) { // Destructure content from prop
                             />
                         </div>
                     </div>
-
-
                 </div>
-                {/* <IoMdArrowRoundForward className="text-2xl text-black font-bold ml-4" onClick={sendMessage} /> */}
             </div>
         </div>
     );
