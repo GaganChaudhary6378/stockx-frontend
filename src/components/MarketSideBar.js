@@ -86,8 +86,8 @@ const MarketSideBar = ({ page }) => {
           className="bg-gray-600 w-full h-[45px] rounded-[5px] pl-4 mt-4 mb-4"
         />
         <div className="h-[750px] overflow-y-scroll no-scrollbar">
-          {filteredCoins.length > 0 &&
-            filteredCoins.map((coin, index) => (
+          {filteredCoins?.length > 0 &&
+            filteredCoins?.map((coin, index) => (
               <div
                 key={index}
                 onClick={() => handleCoinClick(index)}

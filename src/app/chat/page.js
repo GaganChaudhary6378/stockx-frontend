@@ -12,14 +12,18 @@ import { useSelector } from "react-redux";
 const Chat = () => {
     const router = useRouter();
     const {coin,gpt} = useSelector((store)=> store)
-  console.log("data from chat",JSON.stringify(coin));
-  console.log("data from chat",gpt);
 
     useEffect(()=>{
         const key=localStorage.getItem("accessToken")
         if(key==null){
           router.push("/login")
         }
+    },[])
+
+    useEffect(()=>{
+      if(gpt){
+        setContent(JSON.stringify(coin))
+      }
     },[])
 
     const [content, setContent] = useState("");
@@ -93,7 +97,7 @@ const Chat = () => {
                 </div>
             </div>
         ) : (
-            <UserChat content={content} />
+            <UserChat gpt={gpt} content={content} />
         ))
     );
 };
