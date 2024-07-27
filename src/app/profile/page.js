@@ -8,6 +8,7 @@ import Select from "react-select";
 import toast, { Toaster } from "react-hot-toast";
 import ReactFlagsSelect from "react-flags-select";
 import { useRouter } from "next/navigation";
+import { CiLogin } from "react-icons/ci";
 export default function Profile() {
   const [email, setEmail] = useState();
   const [newEmail, setNewEmail] = useState();
@@ -21,6 +22,7 @@ export default function Profile() {
   const [username, setUsername] = useState();
   const [dob, setDob] = useState();
   const router = useRouter();
+  const [key,setKey]=useState()
 
   console.log(country);
   const obj = {
@@ -63,55 +65,61 @@ export default function Profile() {
   };
 
   function handleClick() {
-    router.push("/");
+    router.push("/home");
+  }
+
+  useEffect(()=>{
+    const key=localStorage.getItem("accessToken")
+    setKey(key)
+    if(key==null){
+      router.push("/login")
+    }
+  },[key])
+
+  const LogoutHandler =()=>{
+    localStorage.removeItem("accessToken");
+    router.push("/login")
   }
 
   return (
-    <div className="2xl:flex 2xl:flex-row justify-center bg-[#1D2939] w-screen h-fit">
+    <div className="md:flex md:flex-row justify-center bg-[#1D2939] w-screen h-full">
       {/* sidebar componet */}
       <Toaster position="top-right" reverseOrder={false} />
       <div>
         {/* top bar */}
-        <div className="2xl:flex 2xl:flex-row justify-between items-center w-screen p-4">
+        <div className="flex flex-row justify-between items-center w-screen p-4">
           {/* name */}
           <div className="flex flex-row gap-5 justify-center items-center">
-            <div className="w-14 h-14">
+            <div className="h-[25px] w-[25px] md:w-14 md:h-14">
               <img
                 src="https://imgs.search.brave.com/oZMjDiGSkwe4JfBU1rseEt5PxeELbQWHhff9qEHJVbA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aHVtYW5zZWN1cml0/eS5jb20vaHViZnMv/SHVtYW5fSG9tZXBh/Z2VfQWNjb3VudHMt/bWluLmpwZw"
                 alt="user image"
-                className="w-14 h-14 object-fill rounded-md"
+                className="h-[25px] w-[25px] md:w-14 md:h-14 object-fill rounded-md"
               />
             </div>
-            <div className="text-[32px] text-white font-semibold">
+            <div className=" md:text-[32px] text-white font-semibold">
               John Johnson
             </div>
           </div>
           {/* search and alert */}
-          <div className="flex flex-row justify-center items-center gap-6">
-            <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md">
-              <input
-                type="text"
-                placeholder="Search"
-                className="outline-none bg-inherit text-white"
-              />
-              <IoIosSearch className="text-white hover:cursor-pointer" />
-            </div>
+          <div className="flex md:flex-row md:justify-center md:items-center gap-6">
             <div className="flex justify-between items-center hover:cursor-pointer border border-solid-2px border-[#475467] p-2 rounded-md">
               <IoIosNotifications className="text-white" />
             </div>
+            <button className="bg-[#613DE4] text-white font-bold flex rounded-md gap-2 w-fit h-fit p-2" onClick={LogoutHandler}><span className="mt-1">{<CiLogin color="white" />}</span> Logout</button>
           </div>
         </div>
         <div className="h-1 w-screen bg-[#475467] items-center justify-center flex"></div>
         {/* 1st row */}
-        <div className="p-4 2xl:flex 2xl:flex-row justify-between gap-36">
-          <div className="flex pb-4 2xl:pb-0 flex-col justify-start items-start gap-1 text-white 2xl:w-1/2">
+        <div className="p-4 md:flex md:flex-row justify-between gap-36">
+          <div className="flex pb-4 md:pb-0 flex-col justify-start items-start gap-1 text-white md:w-1/2">
             <h2 className="text-[16px] 2xl:text-2xl font-bold">
               Add your email
             </h2>
-            <p className="text-[12px] 2xl:text-[16px]">
+            <p className="text-[12px] md:text-[16px]">
               This info needs to be accurate with your ID document.
             </p>
-            <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">Email</p>
+            <p className="text-[12px] md:text-[16px] pt-4 2xl:pt-0">Email</p>
             <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
               <input
                 type="text"
@@ -122,12 +130,12 @@ export default function Profile() {
               />
             </div>
           </div>
-          <div className="flex flex-col justify-start items-start gap-1 text-white 2xl:w-1/2">
-            <h2 className="text-[16px] 2xl:text-2xl font-bold">Change email</h2>
-            <p className="text-[12px] 2xl:text-[16px]">
+          <div className="flex flex-col justify-start items-start gap-1 text-white md:w-1/2">
+            <h2 className="text-[16px] md:text-2xl font-bold">Change email</h2>
+            <p className="text-[12px] md:text-[16px]">
               The confirmation code has been sent to your new email
             </p>
-            <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">New Email</p>
+            <p className="text-[12px] md:text-[16px] pt-4 md:pt-0">New Email</p>
             <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
               <input
                 type="text"
@@ -140,12 +148,14 @@ export default function Profile() {
           </div>
         </div>
         {/* 2nd row */}
-        <div className="p-4 2xl:flex 2xl:flex-row justify-between gap-36">
-          <div className="flex flex-col justify-start items-start gap-1 text-white 2xl:w-1/2">
-            <h2 className="text-[16px] 2xl:text-2xl font-bold w-full">
+        <div className="p-4 md:flex md:flex-row justify-between gap-36">
+          <div className="flex flex-col justify-start items-start gap-1 text-white md:w-1/2">
+            <h2 className="text-[16px] md:text-2xl font-bold w-full">
               Change password
             </h2>
-            <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">Сurrent password</p>
+            <p className="text-[12px] md:text-[16px] pt-4 md:pt-0">
+              Сurrent password
+            </p>
             <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
               <input
                 type="text"
@@ -156,8 +166,10 @@ export default function Profile() {
               />
             </div>
           </div>
-          <div className="flex flex-col justify-end items-start gap-1 text-white 2xl:w-1/2">
-            <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">New Password</p>
+          <div className="flex flex-col justify-end items-start gap-1 text-white md:w-1/2">
+            <p className="text-[12px] md:text-[16px] pt-4 2xl:pt-0">
+              New Password
+            </p>
             <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
               <input
                 type="text"
@@ -170,12 +182,16 @@ export default function Profile() {
           </div>
         </div>
         {/* 3rd row */}
-        <div className="p-4 2xl:flex 2xl:flex-row justify-between gap-36">
-          <div className="flex flex-col justify-center items-start 2xl:w-1/2 gap-2">
+        <div className="p-4 2xl:flex md:flex-row justify-between gap-36">
+          <div className="flex flex-col justify-center items-start md:w-1/2 gap-2">
             <div className="flex flex-row justify-center items-end gap-16 w-full">
               <div className="flex flex-col justify-start items-start gap-1 text-white w-full">
-                <h2 className="text-[16px] 2xl:text-2xl font-bold">Home Address</h2>
-                <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">Address Line</p>
+                <h2 className="text-[16px] 2xl:text-2xl font-bold">
+                  Home Address
+                </h2>
+                <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">
+                  Address Line
+                </p>
                 <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
                   <input
                     type="text"
@@ -186,7 +202,9 @@ export default function Profile() {
                 </div>
               </div>
               <div className="flex flex-col justify-start items-start gap-1 text-white w-1/2">
-                <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">Postcode</p>
+                <p className="text-[12px] md:text-[16px] pt-4 2xl:pt-0">
+                  Postcode
+                </p>
                 <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
                   <input
                     type="text"
@@ -198,7 +216,7 @@ export default function Profile() {
               </div>
             </div>
             <div className="flex flex-col justify-start items-start gap-1 text-white w-full">
-              <p className="text-[12px] 2xl:text-[16px] pt-4 2xl:pt-0">City</p>
+              <p className="text-[12px] md:text-[16px] pt-4 2xl:pt-0">City</p>
               <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
                 <input
                   type="text"
@@ -211,7 +229,9 @@ export default function Profile() {
           </div>
 
           <div className="flex flex-col justify-end items-start gap-1 w-1/2">
-            <p className="text-white text-[12px] 2xl:text-[16px]">Country of residence</p>
+            <p className="text-white text-[12px] md:text-[16px]">
+              Country of residence
+            </p>
             {/* <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full"> */}
             {/* {country && (
                                 <div style={{ marginTop: 20 }}>
@@ -243,12 +263,14 @@ export default function Profile() {
           </div>
         </div>
         {/* 4th row */}
-        <div className="p-4 2xl:flex 2xl:flex-row justify-between gap-36">
-          <div className="flex flex-col justify-center items-start 2xl:w-1/2 gap-2">
+        <div className="p-4 md:flex md:flex-row justify-between gap-36">
+          <div className="flex flex-col justify-center items-start md:w-1/2 gap-2">
             <div className="flex flex-row justify-center items-end gap-16 w-full">
               <div className="flex flex-col justify-start items-start gap-1 text-white w-full">
-                <h2 className="text-[16px] 2xl:text-2xl font-bold">Add your personal info</h2>
-                <p className="text-[12px] 2xl:text-[16px]">Full Name</p>
+                <h2 className="text-[16px] md:text-2xl font-bold">
+                  Add your personal info
+                </h2>
+                <p className="text-[12px] md:text-[16px]">Full Name</p>
                 <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full">
                   <input
                     type="text"
@@ -260,7 +282,7 @@ export default function Profile() {
               </div>
             </div>
             <div className="flex flex-col justify-start items-start gap-1 text-white w-full">
-              <p className="text-[12px] 2xl:text-[16px]">Username</p>
+              <p className="text-[12px] md:text-[16px]">Username</p>
               <div className="flex flex-row justify-between items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full gap-2">
                 <input
                   type="text"
@@ -273,7 +295,7 @@ export default function Profile() {
           </div>
 
           <div className="flex flex-col justify-end items-start gap-1 text-white w-1/2">
-            <p className="text-[12px] 2xl:text-[16px]">Date of birth</p>
+            <p className="text-[12px] md:text-[16px]">Date of birth</p>
             <div className="flex flex-row justify-center items-center border border-solid-2px border-[#475467] p-1 rounded-md w-full gap-3">
               <SlCalender className="text-white" />
               <input

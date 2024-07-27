@@ -16,8 +16,13 @@ export default function Login() {
     const [checked, setChecked] = useState();
     const [visible, setVisible] = useState(false);
     const router = useRouter();
-    console.log(email, "email");
-    console.log(password, "pass");
+
+    useEffect(()=>{
+        const key=localStorage.getItem("accessToken")
+        if(key!=null){
+          router.push("/home")
+        }
+    },[])
 
     const obj1 = {
         email: email,
@@ -82,10 +87,10 @@ export default function Login() {
 
                 if (typeof window !== 'undefined') {
                     localStorage.setItem("accessToken", data.data.accessToken);
-                    localStorage.setItem("refreshToken", data.data.refreshToken);
+                    // localStorage.setItem("refreshToken", data.data.refreshToken);
                 }
-                setIndex(0);
-                router.push("/profile");
+
+                router.push("/home");
 
 
             } else {

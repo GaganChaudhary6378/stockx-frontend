@@ -15,6 +15,10 @@ const MarketSideBar = ({ page }) => {
   if (coins?.length > 0) {
     dispatch(addCoin(coins[activeIndex]));
   }
+  const [filteredCoins, setFilteredCoins] = useState([]);
+
+  const [searchCoin, setSearchCoin] = useState("");
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,12 +40,28 @@ const MarketSideBar = ({ page }) => {
       } else {
         console.log(data.message);
       }
+      setFilteredCoins(coins);
     };
     fetchData();
   }, []);
 
+  useEffect(() => {
+    // if (coins.length > 0 && activeIndex !== null) {
+    dispatch(addCoin(coins[activeIndex]));
+    // }
+  }, [coins, activeIndex, dispatch]);
+
+  useEffect(() => {
+    const filtered = coins.filter((coin) =>
+      coin.name.toLowerCase().includes(searchCoin.toLowerCase())
+    );
+    setFilteredCoins(filtered);
+  }, [searchCoin, coins]);
+
   const handleCoinClick = (index) => {
     setActiveIndex(index); // Set the active index to the clicked coin
+    // setSearchCoin(""); // Clear the search input
+    // setFilteredCoins(coins); // Reset to show all coins
   };
 
   const isCoinFavorite = (symbol) => {
@@ -59,13 +79,15 @@ const MarketSideBar = ({ page }) => {
       </div>
       <section>
         <input
+          value={searchCoin}
+          onChange={(e) => setSearchCoin(e.target.value)}
           type="text"
           placeholder="Search your coin"
           className="bg-gray-600 w-full h-[45px] rounded-[5px] pl-4 mt-4 mb-4"
         />
         <div className="h-[750px] overflow-y-scroll no-scrollbar">
-          {coins?.length > 0 &&
-            coins?.map((coin, index) => (
+          {filteredCoins.length > 0 &&
+            filteredCoins.map((coin, index) => (
               <div
                 key={index}
                 onClick={() => handleCoinClick(index)}
