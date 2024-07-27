@@ -6,6 +6,7 @@ import { AiOutlineBars } from "react-icons/ai";
 import moment from "moment";
 import { LineChart, Line, YAxis, Tooltip } from "recharts";
 import { PieChart } from "react-minimal-pie-chart";
+import { useRouter } from "next/navigation";
 
 const Graph = ({ chartPrices }) => {
   const [chartWidth, setChartWidth] = useState(0);
@@ -50,8 +51,6 @@ const Graph = ({ chartPrices }) => {
   );
 };
 
-
-
 const TradingViewWidget = ({ width, height }) => {
   const containerRef = useRef(null);
 
@@ -91,8 +90,15 @@ function Page() {
   const [visible, setVisible] = useState(false);
   const widgetContainerRef = useRef(null);
   const [widgetWidth, setWidgetWidth] = useState(0);
+  const router = useRouter()
 
-  console.log("coins from wallet", coins[0]?.total_supply)
+
+  useEffect(()=>{
+    const key=localStorage.getItem("accessToken")
+    if(key==null){
+      router.push("/login")
+    }
+  },[])
 
   useEffect(() => {
     if (!data) {
@@ -130,30 +136,31 @@ function Page() {
 
   return (
     <div
-      onClick={handleVisible}
       className="bg-[#1D2939] text-white min-h-screen md:flex"
     >
       {visible && (
         <div className="w-64 fixed top-0 left-0">
-          <SideBar page="home" />
+          <SideBar page="home" handleVisible={handleVisible} />
         </div>
       )}
+
       {!visible && (
         <div
           onClick={() => setVisible(!visible)}
-          className="bg-black w-[45px] h-[45px] fixed top-2 left-2"
+          className="cursor-pointer w-[45px] h-[45px] fixed top-2 left-2"
         >
           <AiOutlineBars size={40} />
         </div>
       )}
-      <main onClick={handleVisible} className="flex-1 pt-[60px] md:w-4/5 p-5">
+
+      <main className="flex-1 pt-[60px] md:w-4/5 p-5">
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-2xl">Today News</h1>
           <div className="flex">
-            <div className="px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">
+            <a href="/home" className="px-6 border border-gray-600 cursor-pointer mx-1 py-2 rounded-[5px]">
               Home
-            </div>
-            <div className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
+            </a>
+            <div href="/wallet" className="border  bg-violet-600 cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
               Wallet
             </div>
           </div>
@@ -181,8 +188,8 @@ function Page() {
           </div>
         </section>
         <section>
-          <section className="border border-gray-600 rounded-lg pl-2 ml-2 md:h-[400px] py-4 mb-4 md:w-full">
-            {data && <Graph chartPrices={data?.price} />}
+          <section className="border border-gray-600 rounded-lg pl-2 ml-2 h-[400px] py-4 mb-4 md:w-full">
+            {data? <Graph chartPrices={data?.price} />:(<div className="items-center justify-center text-center">Loading..</div>)}
           </section>
         </section>
         <section className="border flex flex-col md:flex-row justify-between text-gray-400 border-gray-600 p-5 rounded-lg">
@@ -249,10 +256,7 @@ function Page() {
         ref={widgetContainerRef}
         className="md:w-1/5 flex-col justify-center bg-[#101828]"
       >
-        <div className="mt-5 mx-5 border border-gray-600 py-2 pl-4 pt-4 mb-4">
-          User Name
-        </div>
-        <div className="mx-[35px] w-full-md mb-4">
+        <div className="mx-[50px] py-[30px] w-full-md mb-4">
           <PieChart
             data={[
               { title: "One", value: coins[0]?.total_supply, color: "#E34" },
@@ -268,7 +272,6 @@ function Page() {
             ]}
           />
         </div>
-
         <div className="w-full flex justify-center">
           <TradingViewWidget width={widgetWidth - 30} height={680} />
         </div>

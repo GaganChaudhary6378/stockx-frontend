@@ -5,9 +5,22 @@ import { ReactTyped } from "react-typed";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import UserChat from "@/components/userChat/page";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 
 const Chat = () => {
+    const router = useRouter();
+    const {coin,gpt} = useSelector((store)=> store)
+  console.log("data from chat",JSON.stringify(coin));
+  console.log("data from chat",gpt);
+
+    useEffect(()=>{
+        const key=localStorage.getItem("accessToken")
+        if(key==null){
+          router.push("/login")
+        }
+    },[])
 
     const [content, setContent] = useState("");
 
@@ -17,19 +30,19 @@ const Chat = () => {
     const obj = [
         {
             id: 1,
-            content: "Generate unit tests for the following C# function"
+            content: "I’m interested in investing in renewable energy stocks. What are some options?"
         },
         {
             id: 2,
-            content: "Help write SQL to generate a report"
+            content: "Can you compare the historical performance of Amazon (AMZN) and Microsoft (MSFT)?"
         },
         {
             id: 3,
-            content: "Teach me the concept of game theory in simple terms"
+            content: "What are the top performing stocks in the technology sector?"
         },
         {
             id: 4,
-            content: "Walk me through how to apply for a new role"
+            content: "Are there any recent updates on the stock market today?"
         }
     ]
 
@@ -51,7 +64,7 @@ const Chat = () => {
                         <div className="flex md:flex-row flex-col gap-3">
                             {obj.map((item, index) => (
                                 <div className="bg-[#2b2b4d69] md:h-44 md:w-fit p-5 md:max-w-64 text-l font-mono rounded-md hover:cursor-pointer" key={index}>
-                                    <p>{item?.content}</p>
+                                    <p onClick={()=> setContent(item?.content)}>{item?.content}</p>
                                 </div>
                             ))}
                         </div>

@@ -5,6 +5,7 @@ import fetchCoins from "@/components/fetchCoins";
 import { AiOutlineBars } from "react-icons/ai";
 import moment from "moment";
 import { LineChart, Line, YAxis, Tooltip } from "recharts";
+import { useRouter } from "next/navigation";
 
 const Graph = ({ chartPrices }) => {
   const [chartWidth, setChartWidth] = useState(0);
@@ -16,10 +17,8 @@ const Graph = ({ chartPrices }) => {
         setChartWidth(containerRef.current.offsetWidth);
       }
     };
-
     // Set initial width
     updateWidth();
-
     // Update width on resize
     window.addEventListener("resize", updateWidth);
     return () => {
@@ -48,7 +47,6 @@ const Graph = ({ chartPrices }) => {
     </div>
   );
 };
-
 
 
 const TradingViewWidget = ({ width, height }) => {
@@ -90,14 +88,20 @@ function Page() {
   const [visible, setVisible] = useState(false);
   const widgetContainerRef = useRef(null);
   const [widgetWidth, setWidgetWidth] = useState(0);
+  const router=useRouter()
+
+  useEffect(()=>{
+    const key=localStorage.getItem("accessToken")
+    if(key==null){
+      router.push("/login")
+    }
+  },[])
 
   useEffect(() => {
     if (!data) {
       const fetchData = async () => {
         const coins = await fetchCoins();
-        console.log("coins", coins);
         setCoins(coins);
-        console.log("bit coin price", coins[10]?.sparkline_in_7d);
         setData(coins[0]?.sparkline_in_7d);
       };
       fetchData();
@@ -127,32 +131,31 @@ function Page() {
 
   return (
     <div
-      onClick={handleVisible}
       className="bg-[#1D2939] text-white min-h-screen md:flex"
     >
       {visible && (
-        <div className="w-64 fixed top-0 left-0">
-          <SideBar page="home" />
+        <div className="w-64 fixed opacity-100 top-0 left-0">
+          <SideBar page="home" handleVisible={handleVisible} />
         </div>
       )}
       {!visible && (
         <div
           onClick={() => setVisible(!visible)}
-          className="bg-black w-[45px] h-[45px] fixed top-2 left-2"
+          className=" cursor-pointer w-[45px] h-[45px] fixed top-2 left-2"
         >
           <AiOutlineBars size={40} />
         </div>
       )}
-      <main onClick={handleVisible} className="flex-1 pt-[60px] md:w-4/5 p-5">
+      <main className="flex-1 pt-[60px] md:w-4/5 p-5">
         <header className="flex justify-between items-center mb-10">
           <h1 className="text-2xl">Today News</h1>
           <div className="flex">
-            <div className="px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">
+            <a href="/home" className="px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">
               Home
-            </div>
-            <div className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
+            </a>
+            <a href="/wallet" className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
               Wallet
-            </div>
+            </a>
           </div>
         </header>
         <section className="mb-4 md:flex">
@@ -178,8 +181,8 @@ function Page() {
           </div>
         </section>
         <section>
-          <section className="border border-gray-600 rounded-lg pl-2 ml-2 md:h-[400px] py-4 mb-4 md:w-full">
-            {data && <Graph chartPrices={data?.price} />}
+          <section className="border border-gray-600 rounded-lg pl-2 ml-2 h-[400px] py-4 mb-4 md:w-full">
+          {data? <Graph chartPrices={data?.price} />:(<div className="items-center justify-center text-center">Loading..</div>)}
           </section>
         </section>
         <section className="border border-gray-600 p-5 rounded-lg text-gray-400">
@@ -237,9 +240,6 @@ function Page() {
         ref={widgetContainerRef}
         className="md:w-1/5 flex-col justify-center bg-[#101828]"
       >
-        <div className="mt-5 mx-5 border border-gray-600 py-2 pl-4 pt-4 mb-4">
-          User Name
-        </div>
         <div className="w-full flex justify-center">
           <TradingViewWidget width={widgetWidth - 30} height={980} />
         </div>

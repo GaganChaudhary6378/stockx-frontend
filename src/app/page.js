@@ -1,12 +1,22 @@
 "use client"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/components/navbar/nav";
 import Landing from "@/components/Landing/landing";
 import Feature from "@/components/feautures/page";
 import Earn from "@/components/earn/earn";
 import Join from "@/components/joinTeam/join";
 import Footer from "@/components/footer/footer";
+import { useRouter } from "next/navigation";
 export default function Home() {
+  const router= useRouter()
+
+
+  useEffect(()=>{
+      const key=localStorage.getItem("accessToken")
+      if( key!=null){
+        router.push("/home")
+      }
+  },[])
 
   return (
     <div className="flex flex-col">
