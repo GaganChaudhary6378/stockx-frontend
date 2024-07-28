@@ -4,10 +4,7 @@ import io from 'socket.io-client';
 import { ReactTyped } from "react-typed";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import UserChat from "@/components/userChat/page";
-<<<<<<< HEAD
 import { IoMdArrowRoundBack } from "react-icons/io";
-=======
->>>>>>> 11f7157 (chat page)
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
