@@ -8,7 +8,9 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
+
 export default function Login() {
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [otp, setOtp] = useState(0);
@@ -35,8 +37,9 @@ export default function Login() {
     }
 
     const submitdata = async () => {
+        
         console.log("submit function clicked")
-        const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/register`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -52,7 +55,7 @@ export default function Login() {
     };
 
     const verifyOTP = async () => {
-        const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/verify`, {
+        const res = await fetch(`${pprocess.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/verify`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -68,9 +71,10 @@ export default function Login() {
     }
 
     const loginUser = async () => {
+        console.log(process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL,"dotenv")
         console.log("login function clicked");
         try {
-            const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/login`, {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
