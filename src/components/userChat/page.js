@@ -246,7 +246,7 @@ export default function UserChat({ content, gpt }) { // Destructure content from
                 };
                 setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
             }
-
+            console.log(id , "vercel test");
             const url = `${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/${gpt ? `getParticularStock/${id}` : `getStockInfo/${id}`}`
             const response = await fetch(url, {
                 method: "POST", // Adjust to POST if your logic requires it.
