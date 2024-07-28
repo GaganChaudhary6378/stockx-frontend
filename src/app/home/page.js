@@ -31,6 +31,7 @@ const Graph = ({ chartPrices }) => {
     name: moment.unix(startUnixTimestamp + (index + 1) * 3600).format("MM-DD HH:mm"),
     price: item,
     amt: item,
+    
   }));
   const tooltipFormatter = (value) => value.toFixed(2);
 
@@ -84,7 +85,7 @@ const TradingViewWidget = ({ width, height }) => {
 
 function Page() {
   const [data, setData] = useState();
-  const [coins, setCoins] = useState([]);
+  const [coins, setCoins] = useState();
   const [visible, setVisible] = useState(false);
   const widgetContainerRef = useRef(null);
   const [widgetWidth, setWidgetWidth] = useState(0);
@@ -102,7 +103,7 @@ function Page() {
       const fetchData = async () => {
         const coins = await fetchCoins();
         setCoins(coins);
-        setData(coins[0]?.sparkline_in_7d);
+        setData(coins?coins[0].sparkline_in_7d : "");
       };
       fetchData();
     }
@@ -189,15 +190,15 @@ function Page() {
           <div className="flex border-b-[1px] py-2">
             <div className="w-[150px] text-[16px] font-bold">Coin:</div>
             <div className="flex justify-evenly w-full text-[14px]">
-              <div>{coins[0]?.name}</div>
-              <div>{coins[0]?.current_price}</div>
+              <div>{coins?coins[0].name : ""}</div>
+              <div>{coins?coins[0].current_price : ""}</div>
             </div>
           </div>
           <div className="flex border-b-[1px] py-2">
             <div className="w-[150px] text-[16px] font-bold">Timeframe:</div>
             <div className="flex justify-evenly w-full text-[14px]">
-              <div>{coins[0]?.high_24h}</div>
-              <div>{coins[0]?.low_24h}</div>
+              <div>{coins?coins[0].high_24h : ""}</div>
+              <div>{coins?coins[0].low_24h : ""}</div>
             </div>
           </div>
           <div className="flex border-b-[1px] py-2">
@@ -212,7 +213,7 @@ function Page() {
           <div className="flex border-b-[1px] py-2">
             <div className="w-[150px] text-[16px] font-bold">Entry Point:</div>
             <div className="flex justify-evenly w-full text-[14px]">
-              <div className="justify-self-start">{coins[0]?.low_24h}</div>
+              <div className="justify-self-start">{coins?coins[0].low_24h : ""}</div>
             </div>
           </div>
           <div className="flex border-b-[1px] py-2">

@@ -10,104 +10,102 @@ const TradingViewWidget = ({ width, height }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    if (width > 0) {
-      const widgetContainer = document.getElementById("tradingview-widget");
-      if (widgetContainer) {
-        widgetContainer.innerHTML = "";
+      if (width > 0) {
+          const widgetContainer = document.getElementById('tradingview-widget');
+          if (widgetContainer) {
+              widgetContainer.innerHTML = '';
 
-        const script = document.createElement("script");
-        script.src =
-          "https://s3.tradingview.com/external-embedding/embed-widget-timeline.js";
-        script.async = true;
-        script.innerHTML = JSON.stringify({
-          feedMode: "all_symbols",
-          isTransparent: false,
-          displayMode: "regular",
-          width: width,
-          height: height,
-          colorTheme: "dark",
-          locale: "en",
-        });
-        widgetContainer.appendChild(script);
+              const script = document.createElement('script');
+              script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+              script.async = true;
+              script.innerHTML = JSON.stringify({
+                  feedMode: 'all_symbols',
+                  isTransparent: false,
+                  displayMode: 'regular',
+                  width: width,
+                  height: height,
+                  colorTheme: 'dark',
+                  locale: 'en'
+              });
+              widgetContainer.appendChild(script);
+          }
       }
-    }
   }, [width, height]);
 
   return (
-    <div className="tradingview-widget-container" ref={containerRef}>
-      <div
-        id="tradingview-widget"
-        className="tradingview-widget-container__widget"
-      ></div>
-    </div>
+      <div className="tradingview-widget-container" ref={containerRef}>
+          <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
+      </div>
   );
 };
+
 
 const TradingViewChart = () => {
   const container = useRef();
   const [selectedCoinId, setSelectedCoinId] = useState("BTC");
   const store = useSelector((store) => store);
-  const [searchCoin, setSearchCoin] = useState("");
 
   useEffect(() => {
-    if (store?.coin?.symbol?.toUpperCase() != undefined)
-      setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
-    console.log("selected coin", selectedCoinId)
+      if (!store) {
+          setSelectedCoinId("BTC");
+      } else {
+          setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
+      }
+
   }, [store?.coin?.symbol]);
 
   const [chartWidth, setChartWidth] = useState(0);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (typeof window !== "undefined" && container.current) {
-        setChartWidth(container.current.offsetWidth);
-      }
-    };
+      const handleResize = () => {
+          if (typeof window !== 'undefined' && container.current) {
+              setChartWidth(container.current.offsetWidth);
+          }
+      };
 
-    handleResize();
-    window.addEventListener("resize", handleResize);
+      handleResize();
+      window.addEventListener('resize', handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      };
   }, []);
 
   useEffect(() => {
-    if (chartWidth > 0) {
-      const script = document.createElement("script");
-      script.src =
-        "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-      script.type = "text/javascript";
-      script.async = true;
-      script.innerHTML = `
-            {
-                "width": ${chartWidth},
-                "height": "410",
-                "symbol": "${selectedCoinId}",
-                "interval": "1",
-                "timezone": "Etc/UTC",
-                "theme": "dark",
-                "style": "1",
-                "locale": "en",
-                "allow_symbol_change": true,
-                "calendar": false,
-                "support_host": "https://www.tradingview.com"
-            }`;
-      container.current.appendChild(script);
+      if (chartWidth > 0) {
+          const script = document.createElement("script");
+          script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+          script.type = "text/javascript";
+          script.async = true;
+          script.innerHTML = `
+          {
+              "width": ${chartWidth},
+              "height": "410",
+              "symbol": "${selectedCoinId}",
+              "interval": "1",
+              "timezone": "Etc/UTC",
+              "theme": "dark",
+              "style": "1",
+              "locale": "en",
+              "allow_symbol_change": true,
+              "calendar": false,
+              "support_host": "https://www.tradingview.com"
+          }`;
+          container.current.appendChild(script);
 
-      return () => {
-        if (container.current) {
-          container.current.innerHTML = ''; // Clean up
-        }
-      };
-    }
+          return () => {
+              if (container.current) {
+                  container.current.innerHTML = ''; // Clean up
+              }
+          };
+      }
   }, [chartWidth, selectedCoinId]);
 
 
   return (
-    <div ref={container} style={{ height: "400px", width: "100%" }}>
-      <div style={{ height: "400px", width: "100%" }}></div>
-    </div>
+      <div ref={container} style={{ height: "400px", width: "100%" }}>
+          <div style={{ height: "400px", width: "100%" }}></div>
+      </div>
   );
 };
 
@@ -240,8 +238,8 @@ function Market() {
         className="w-full md:w-1/5 flex flex-col justify-center bg-[#101828]"
         ref={containerRef}
       >
-        <div onClick={AskGPTHandler} className="border cursor-pointer border-gray-100 mx-2 mb-4 text-center py-2 rounded-[8px]">
-          Aks GPT to pridiction about your choosen coin
+        <div onClick={AskGPTHandler} className="border cursor-pointer bg-purple-500 border-white mx-2 mb-4 text-center text-white font-bold py-2 rounded-[8px]">
+          Ask StockX AI.
         </div>
         <div className="w-full flex justify-center">
           <TradingViewWidget width={widgetWidth} height={850} />
