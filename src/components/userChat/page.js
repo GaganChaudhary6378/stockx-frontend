@@ -219,7 +219,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useDispatch } from "react-redux";
 import { toggleState } from "../store/gptSlice";
 
-export default function UserChat({ content, gpt }) { // Destructure content from props
+export default function UserChat({ content, gpt ,setContent}) { // Destructure content from props
     const [userQuery, setUserQuery] = useState(""); // Initialize state with content
     const [loading, setLoading] = useState(false);
     const [responseMessage, setResponseMessage] = useState([]);
@@ -247,6 +247,8 @@ export default function UserChat({ content, gpt }) { // Destructure content from
                 setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
             }
             console.log(id , "vercel test");
+            console.log("content", content);
+            console.log("user query" , userQuery);
             const url = `${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/${gpt ? `getParticularStock/${id}` : `getStockInfo/${id}`}`
             const response = await fetch(url, {
                 method: "POST", // Adjust to POST if your logic requires it.
@@ -274,6 +276,7 @@ export default function UserChat({ content, gpt }) { // Destructure content from
             }
             setResponseMessage(prev => [...prev, obj]);
             setUserQuery(""); // Clear input field
+            setContent("");
 
         } catch (error) {
             toast.error(error.message);

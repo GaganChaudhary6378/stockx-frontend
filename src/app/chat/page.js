@@ -26,6 +26,7 @@ const Chat = () => {
       }
     },[])
 
+
     const [content, setContent] = useState("");
 
     const [username, setUsername] = useState('Gagan')
@@ -96,7 +97,7 @@ const Chat = () => {
                 </div>
             </div>
         ) : (
-            <UserChat gpt={gpt} content={content} />
+            <UserChat gpt={gpt} content={content} setContent={setContent}/>
         ))
     );
 };
