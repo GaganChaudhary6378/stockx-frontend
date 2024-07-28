@@ -7,6 +7,7 @@ import moment from "moment";
 import { LineChart, Line, YAxis, Tooltip } from "recharts";
 import { PieChart } from "react-minimal-pie-chart";
 import { useRouter } from "next/navigation";
+import { Link } from "lucide-react";
 
 const Graph = ({ chartPrices }) => {
   const [chartWidth, setChartWidth] = useState(0);
@@ -160,9 +161,9 @@ function Page() {
             <a href="/home" className="px-6 border border-gray-600 cursor-pointer mx-1 py-2 rounded-[5px]">
               Home
             </a>
-            <div href="/Wallet" className="border  bg-violet-600 cursor-pointer border-gray-600 px-6 py-2 mx-1 rounded-[5px]">
+            <Link href="/Wallet"><div className="border  bg-violet-600 cursor-pointer border-gray-600 px-6 py-2 mx-1 rounded-[5px]">
               Wallet
-            </div>
+            </div></Link>
           </div>
         </header>
         <section className="mb-4 md:flex">

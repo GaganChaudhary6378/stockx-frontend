@@ -10,32 +10,32 @@ const TradingViewWidget = ({ width, height }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-      if (width > 0) {
-          const widgetContainer = document.getElementById('tradingview-widget');
-          if (widgetContainer) {
-              widgetContainer.innerHTML = '';
+    if (width > 0) {
+      const widgetContainer = document.getElementById('tradingview-widget');
+      if (widgetContainer) {
+        widgetContainer.innerHTML = '';
 
-              const script = document.createElement('script');
-              script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
-              script.async = true;
-              script.innerHTML = JSON.stringify({
-                  feedMode: 'all_symbols',
-                  isTransparent: false,
-                  displayMode: 'regular',
-                  width: width,
-                  height: height,
-                  colorTheme: 'dark',
-                  locale: 'en'
-              });
-              widgetContainer.appendChild(script);
-          }
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+          feedMode: 'all_symbols',
+          isTransparent: false,
+          displayMode: 'regular',
+          width: width,
+          height: height,
+          colorTheme: 'dark',
+          locale: 'en'
+        });
+        widgetContainer.appendChild(script);
       }
+    }
   }, [width, height]);
 
   return (
-      <div className="tradingview-widget-container" ref={containerRef}>
-          <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
-      </div>
+    <div className="tradingview-widget-container" ref={containerRef}>
+      <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
+    </div>
   );
 };
 
@@ -46,38 +46,38 @@ const TradingViewChart = () => {
   const store = useSelector((store) => store);
 
   useEffect(() => {
-      if (!store) {
-          setSelectedCoinId("BTC");
-      } else {
-          setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
-      }
+    if (!store) {
+      setSelectedCoinId("BTC");
+    } else {
+      setSelectedCoinId(store?.coin?.symbol?.toUpperCase());
+    }
 
   }, [store?.coin?.symbol]);
 
   const [chartWidth, setChartWidth] = useState(0);
 
   useEffect(() => {
-      const handleResize = () => {
-          if (typeof window !== 'undefined' && container.current) {
-              setChartWidth(container.current.offsetWidth);
-          }
-      };
+    const handleResize = () => {
+      if (typeof window !== 'undefined' && container.current) {
+        setChartWidth(container.current.offsetWidth);
+      }
+    };
 
-      handleResize();
-      window.addEventListener('resize', handleResize);
+    handleResize();
+    window.addEventListener('resize', handleResize);
 
-      return () => {
-          window.removeEventListener('resize', handleResize);
-      };
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   useEffect(() => {
-      if (chartWidth > 0) {
-          const script = document.createElement("script");
-          script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
-          script.type = "text/javascript";
-          script.async = true;
-          script.innerHTML = `
+    if (chartWidth > 0) {
+      const script = document.createElement("script");
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+      script.type = "text/javascript";
+      script.async = true;
+      script.innerHTML = `
           {
               "width": ${chartWidth},
               "height": "410",
@@ -91,21 +91,21 @@ const TradingViewChart = () => {
               "calendar": false,
               "support_host": "https://www.tradingview.com"
           }`;
-          container.current.appendChild(script);
+      container.current.appendChild(script);
 
-          return () => {
-              if (container.current) {
-                  container.current.innerHTML = ''; // Clean up
-              }
-          };
-      }
+      return () => {
+        if (container.current) {
+          container.current.innerHTML = ''; // Clean up
+        }
+      };
+    }
   }, [chartWidth, selectedCoinId]);
 
 
   return (
-      <div ref={container} style={{ height: "400px", width: "100%" }}>
-          <div style={{ height: "400px", width: "100%" }}></div>
-      </div>
+    <div ref={container} style={{ height: "400px", width: "100%" }}>
+      <div style={{ height: "400px", width: "100%" }}></div>
+    </div>
   );
 };
 
@@ -168,9 +168,9 @@ function Market() {
             <a href="/home" className="px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">
               Home
             </a>
-            <a href="/wallet" className="border cursor-pointer border-gray-600 px-6 py-2 mx-1 rounded-[5px]">
+            <Link href="/Wallet"><div className="border cursor-pointer border-gray-600 px-6 py-2 mx-1 rounded-[5px]">
               Wallet
-            </a>
+            </div></Link>
           </div>
         </header>
         <section className="mb-4 flex flex-col md:flex-row">

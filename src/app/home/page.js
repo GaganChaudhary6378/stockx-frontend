@@ -31,7 +31,7 @@ const Graph = ({ chartPrices }) => {
     name: moment.unix(startUnixTimestamp + (index + 1) * 3600).format("MM-DD HH:mm"),
     price: item,
     amt: item,
-    
+
   }));
   const tooltipFormatter = (value) => value.toFixed(2);
 
@@ -54,32 +54,32 @@ const TradingViewWidget = ({ width, height }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-      if (width > 0) {
-          const widgetContainer = document.getElementById('tradingview-widget');
-          if (widgetContainer) {
-              widgetContainer.innerHTML = '';
+    if (width > 0) {
+      const widgetContainer = document.getElementById('tradingview-widget');
+      if (widgetContainer) {
+        widgetContainer.innerHTML = '';
 
-              const script = document.createElement('script');
-              script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
-              script.async = true;
-              script.innerHTML = JSON.stringify({
-                  feedMode: 'all_symbols',
-                  isTransparent: false,
-                  displayMode: 'regular',
-                  width: width,
-                  height: height,
-                  colorTheme: 'dark',
-                  locale: 'en'
-              });
-              widgetContainer.appendChild(script);
-          }
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+          feedMode: 'all_symbols',
+          isTransparent: false,
+          displayMode: 'regular',
+          width: width,
+          height: height,
+          colorTheme: 'dark',
+          locale: 'en'
+        });
+        widgetContainer.appendChild(script);
       }
+    }
   }, [width, height]);
 
   return (
-      <div className="tradingview-widget-container" ref={containerRef}>
-          <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
-      </div>
+    <div className="tradingview-widget-container" ref={containerRef}>
+      <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
+    </div>
   );
 };
 
@@ -89,21 +89,21 @@ function Page() {
   const [visible, setVisible] = useState(false);
   const widgetContainerRef = useRef(null);
   const [widgetWidth, setWidgetWidth] = useState(0);
-  const router=useRouter()
+  const router = useRouter()
 
-  useEffect(()=>{
-    const key=localStorage.getItem("accessToken")
-    if(key==null){
+  useEffect(() => {
+    const key = localStorage.getItem("accessToken")
+    if (key == null) {
       router.push("/login")
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     if (!data) {
       const fetchData = async () => {
         const coins = await fetchCoins();
         setCoins(coins);
-        setData(coins?coins[0].sparkline_in_7d : "");
+        setData(coins ? coins[0].sparkline_in_7d : "");
       };
       fetchData();
     }
@@ -154,9 +154,10 @@ function Page() {
             <a href="/home" className="px-6 bg-violet-600 cursor-pointer mx-1 py-2 rounded-[5px]">
               Home
             </a>
-            <a href="/Wallet" className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
+            <Link href="/Wallet"><div className="border cursor-pointer border-gray-600  px-6 py-2 mx-1 rounded-[5px]">
               Wallet
-            </a>
+            </div>
+            </Link>
           </div>
         </header>
         <section className="mb-4 md:flex">
@@ -183,22 +184,22 @@ function Page() {
         </section>
         <section>
           <section className="border border-gray-600 rounded-lg pl-2 ml-2 h-[400px] py-4 mb-4 md:w-full">
-          {data? <Graph chartPrices={data?.price} />:(<div className="items-center justify-center text-center">Loading..</div>)}
+            {data ? <Graph chartPrices={data?.price} /> : (<div className="items-center justify-center text-center">Loading..</div>)}
           </section>
         </section>
         <section className="border border-gray-600 p-5 rounded-lg text-gray-400">
           <div className="flex border-b-[1px] py-2">
             <div className="w-[150px] text-[16px] font-bold">Coin:</div>
             <div className="flex justify-evenly w-full text-[14px]">
-              <div>{coins?coins[0].name : ""}</div>
-              <div>{coins?coins[0].current_price : ""}</div>
+              <div>{coins ? coins[0].name : ""}</div>
+              <div>{coins ? coins[0].current_price : ""}</div>
             </div>
           </div>
           <div className="flex border-b-[1px] py-2">
             <div className="w-[150px] text-[16px] font-bold">Timeframe:</div>
             <div className="flex justify-evenly w-full text-[14px]">
-              <div>{coins?coins[0].high_24h : ""}</div>
-              <div>{coins?coins[0].low_24h : ""}</div>
+              <div>{coins ? coins[0].high_24h : ""}</div>
+              <div>{coins ? coins[0].low_24h : ""}</div>
             </div>
           </div>
           <div className="flex border-b-[1px] py-2">
@@ -213,7 +214,7 @@ function Page() {
           <div className="flex border-b-[1px] py-2">
             <div className="w-[150px] text-[16px] font-bold">Entry Point:</div>
             <div className="flex justify-evenly w-full text-[14px]">
-              <div className="justify-self-start">{coins?coins[0].low_24h : ""}</div>
+              <div className="justify-self-start">{coins ? coins[0].low_24h : ""}</div>
             </div>
           </div>
           <div className="flex border-b-[1px] py-2">
