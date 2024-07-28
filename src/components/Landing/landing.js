@@ -6,7 +6,7 @@ export default function Landing() {
     async function handleClick() {
         try {
             const res = await fetch(
-                `http://localhost:8001/api/v1/newsletter/subscribe`,
+                `${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/newsletter/subscribe`,
                 {
                     method: "POST",
                     headers: {
