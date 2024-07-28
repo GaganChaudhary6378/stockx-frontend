@@ -277,6 +277,7 @@ export default function UserChat({ content, gpt }) { // Destructure content from
 
         } catch (error) {
             toast.error(error.message);
+            setUserQuery("");
             console.log(error)
             setLoading(false); // Reset loading state on error
         }
@@ -293,9 +294,9 @@ export default function UserChat({ content, gpt }) { // Destructure content from
             />
             <div className="bg-hero flex flex-col justify-between items-center w-full p-[4rem]">
 
-                <div className="flex w-screen flex-col gap-6">
+                <div className="flex w-screen flex-col gap-6 md:p-10 pl-4 pr-4">
                     {responseMessage.map((msg, index) => (
-                        <p key={index} className={msg.role === 'bot' ? "text-green-400 px-2 text-wrap flex flex-row max-w-screen font-mono text-sm" : "text-blue-500 px-2 text-wrap flex flex-row max-w-screen font-mono text-sm font-bold"}>
+                        <p key={index} className={msg.role === 'bot' ? "text-green-400 px-2 text-wrap flex flex-row font-mono text-sm" : "text-white px-2 text-wrap flex flex-row justify-end font-mono text-l font-bold"}>
                             {msg.content}
                         </p>
                     ))}
