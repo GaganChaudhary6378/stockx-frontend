@@ -11,7 +11,7 @@ const MarketCoinBox = ({ image, symbol, current_price, id, isActive, isFavorite 
 
   async function handleClick() {
     try {
-      const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/${symbol.toUpperCase()}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/${symbol.toUpperCase()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

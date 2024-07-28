@@ -55,32 +55,32 @@ const TradingViewWidget = ({ width, height }) => {
   const containerRef = useRef(null);
 
   useEffect(() => {
-      if (width > 0) {
-          const widgetContainer = document.getElementById('tradingview-widget');
-          if (widgetContainer) {
-              widgetContainer.innerHTML = '';
+    if (width > 0) {
+      const widgetContainer = document.getElementById('tradingview-widget');
+      if (widgetContainer) {
+        widgetContainer.innerHTML = '';
 
-              const script = document.createElement('script');
-              script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
-              script.async = true;
-              script.innerHTML = JSON.stringify({
-                  feedMode: 'all_symbols',
-                  isTransparent: false,
-                  displayMode: 'regular',
-                  width: width,
-                  height: height,
-                  colorTheme: 'dark',
-                  locale: 'en'
-              });
-              widgetContainer.appendChild(script);
-          }
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+          feedMode: 'all_symbols',
+          isTransparent: false,
+          displayMode: 'regular',
+          width: width,
+          height: height,
+          colorTheme: 'dark',
+          locale: 'en'
+        });
+        widgetContainer.appendChild(script);
       }
+    }
   }, [width, height]);
 
   return (
-      <div className="tradingview-widget-container" ref={containerRef}>
-          <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
-      </div>
+    <div className="tradingview-widget-container" ref={containerRef}>
+      <div id="tradingview-widget" className="tradingview-widget-container__widget"></div>
+    </div>
   );
 };
 
@@ -93,12 +93,12 @@ function Page() {
   const router = useRouter()
 
 
-  useEffect(()=>{
-    const key=localStorage.getItem("accessToken")
-    if(key==null){
+  useEffect(() => {
+    const key = localStorage.getItem("accessToken")
+    if (key == null) {
       router.push("/login")
     }
-  },[])
+  }, [])
 
   useEffect(() => {
     if (!data) {
@@ -189,7 +189,7 @@ function Page() {
         </section>
         <section>
           <section className="border border-gray-600 rounded-lg pl-2 ml-2 h-[400px] py-4 mb-4 md:w-full">
-            {data? <Graph chartPrices={data?.price} />:(<div className="items-center justify-center text-center">Loading..</div>)}
+            {data ? <Graph chartPrices={data?.price} /> : (<div className="items-center justify-center text-center">Loading..</div>)}
           </section>
         </section>
         <section className="border flex flex-col md:flex-row justify-between text-gray-400 border-gray-600 p-5 rounded-lg">

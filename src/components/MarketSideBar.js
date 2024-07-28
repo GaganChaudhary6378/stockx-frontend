@@ -27,7 +27,7 @@ const MarketSideBar = ({ page }) => {
       setCoins(coins);
 
       // Fetch preferences only after coins are fetched
-      const response = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/getAllPreferences/66a2a8e4acd1c2bd7dce11a1`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/getAllPreferences/66a2a8e4acd1c2bd7dce11a1`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
