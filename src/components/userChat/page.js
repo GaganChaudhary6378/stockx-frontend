@@ -214,6 +214,8 @@ import io from 'socket.io-client';
 import { IoMdArrowRoundForward } from "react-icons/io";
 import ReactTyped from "react-typed"; // Corrected import
 import { BorderBeam } from "../magicui/border-beam";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function UserChat({ content }) { // Destructure content from props
     const [userQuery, setUserQuery] = useState(""); // Initialize state with content
@@ -238,7 +240,7 @@ export default function UserChat({ content }) { // Destructure content from prop
             };
             setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
 
-            const response = await fetch("http://localhost:8001/api/v1/users/getStockInfo", {
+            const response = await fetch("http://localhost:8001/api/v1/users/getParticularStock/66a4bb716c4b04ca674678a9", {
                 method: "POST", // Adjust to POST if your logic requires it.
                 headers: {
                     "Content-Type": "application/json",
@@ -249,7 +251,8 @@ export default function UserChat({ content }) { // Destructure content from prop
             });
 
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                const data = await response.json();
+                throw new Error(data.error)
             }
             const data = await response.json();
             console.log(data.data);
@@ -262,7 +265,8 @@ export default function UserChat({ content }) { // Destructure content from prop
             setUserQuery(""); // Clear input field
 
         } catch (error) {
-            console.error("Error sending query:", error);
+            toast.error(error.message);
+            console.log(error)
             setLoading(false); // Reset loading state on error
         }
     };
@@ -270,7 +274,12 @@ export default function UserChat({ content }) { // Destructure content from prop
     console.log(responseMessage);
 
     return (
-        <div className="flex flex-col justify-start items-center min-h-screen w-screen gap-4 bg-black text-white">
+        <div className="flex flex-col justify-start md:items-center min-h-screen w-screen gap-4 bg-black text-white">
+            <IoMdArrowRoundBack color="white" className="text-3xl m-3 md:hidden block" onClick={() => history.go(-1)} />
+            <Toaster
+                position="top-right"
+                reverseOrder={false}
+            />
             <div className="bg-hero flex flex-col justify-between items-center w-full p-[4rem]">
 
                 <div className="flex flex-col gap-6">
