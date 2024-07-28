@@ -42,7 +42,7 @@ export default function Profile() {
   const handleSubmit = async () => {
     try {
       const res = await fetch(
-        `http://localhost:8001/api/v1/users/profile/66a2a8e4acd1c2bd7dce11a1`,
+        `${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/profile/66a2a8e4acd1c2bd7dce11a1`,
         {
           method: "POST",
           headers: {

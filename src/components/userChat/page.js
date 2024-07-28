@@ -240,7 +240,7 @@ export default function UserChat({ content }) { // Destructure content from prop
             };
             setResponseMessage(prev => [...prev, userMessage]); // Append user message to responseMessage
 
-            const response = await fetch("http://localhost:8001/api/v1/users/getParticularStock/66a4bb716c4b04ca674678a9", {
+            const response = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/getParticularStock/66a4bb716c4b04ca674678a9`, {
                 method: "POST", // Adjust to POST if your logic requires it.
                 headers: {
                     "Content-Type": "application/json",
