@@ -55,7 +55,7 @@ export default function Login() {
     };
 
     const verifyOTP = async () => {
-        const res = await fetch(`${pprocess.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/verify`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/verify`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
