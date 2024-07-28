@@ -4,7 +4,10 @@ import io from 'socket.io-client';
 import { ReactTyped } from "react-typed";
 import { IoMdArrowRoundForward } from "react-icons/io";
 import UserChat from "@/components/userChat/page";
+<<<<<<< HEAD
 import { IoMdArrowRoundBack } from "react-icons/io";
+=======
+>>>>>>> 11f7157 (chat page)
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 
@@ -53,8 +56,7 @@ const Chat = () => {
 
     return (
         (currentPage === 0 ? (
-            <div className="flex flex-col justify-start md:items-center min-h-screen w-screen gap-4 bg-black text-white">
-                <IoMdArrowRoundBack color="white" className="text-3xl m-3 md:hidden block" onClick={() => history.back()} />
+            <div className="flex flex-col justify-start items-center min-h-screen w-screen gap-4 bg-black text-white">
                 <div className="bg-hero flex flex-col justify-between items-center w-full md:pt-[10rem] pt-[3rem]">
                     {/* headings */}
                     <div className="flex flex-col gap-11 mb-10 md:p-0 p-4">

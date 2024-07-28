@@ -268,11 +268,9 @@ export default function UserChat({ content, gpt }) { // Destructure content from
                 role: "bot",
                 content: data.data,
             };
-
             if (gpt) {
                 dispatch(toggleState())
             }
-
             setResponseMessage(prev => [...prev, obj]);
             setUserQuery(""); // Clear input field
 
