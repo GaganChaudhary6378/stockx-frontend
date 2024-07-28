@@ -90,10 +90,10 @@ export default function Login() {
                 }, 2000); // Add a 2-second delay
 
                 if (typeof window !== 'undefined') {
-                    localStorage.setItem("accessToken", data.data.accessToken);
+                    localStorage.setItem("accessToken", data?.data?.accessToken);
+                    localStorage.setItem("user", data?.data?.user._id);
                     // localStorage.setItem("refreshToken", data.data.refreshToken);
                 }
-
                 router.push("/home");
 
 
