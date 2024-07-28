@@ -31,7 +31,7 @@ export default function Login() {
 
     const submitdata = async () => {
         console.log("submit function clicked")
-        const res = await fetch("http://localhost:8001/api/v1/users/register", {
+        const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -47,7 +47,7 @@ export default function Login() {
     };
 
     const verifyOTP = async () => {
-        const res = await fetch("http://localhost:8001/api/v1/users/verify", {
+        const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/verify`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +65,7 @@ export default function Login() {
     const loginUser = async () => {
         console.log("login function clicked");
         try {
-            const res = await fetch("https://stockx-backend.vercel.app/api/v1/users/login", {
+            const res = await fetch(`${process.env.PRODUCTION_BACKEND_URL}/api/v1/users/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -113,7 +113,7 @@ export default function Login() {
             <div className="md:w-1/2 flex justify-center md:items-center items-start bg-[#1D2939] w-screen">
                 <div className="md:w-[516px] w-screen bg-transparent flex flex-col justify-center items-start p-3 md:gap-0 gap-9">
                     {/* Tabs */}
-                    <IoMdArrowRoundBack color="white" className="text-3xl mt-2 md:hidden block" onClick={() => history.back()}/>
+                    <IoMdArrowRoundBack color="white" className="text-3xl mt-2 md:hidden block" onClick={() => history.back()} />
                     <div className="md:w-full w-full h-fit bg-[#101828] rounded-md p-2 text-white  size=font-bold text-[16px]">
                         <div className="">
                             <button className={`${index == 0 ? 'bg-[#613DE4]' : 'border border-solid-[8px] border-[#475467] '} w-1/2 h-9 rounded-l-md`} onClick={(e) => setIndex(0)}>Sign In</button>
