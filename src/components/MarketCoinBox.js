@@ -11,13 +11,14 @@ const MarketCoinBox = ({ image, symbol, current_price, id, isActive, isFavorite 
 
   async function handleClick() {
     try {
+      const id=localStorage.getItem("user");
       const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/${symbol.toUpperCase()}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: "66a2a8e4acd1c2bd7dce11a1"
+          userId: id
         }),
       });
       const data = await res.json();
