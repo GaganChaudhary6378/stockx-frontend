@@ -7,7 +7,7 @@ import moment from "moment";
 import { LineChart, Line, YAxis, Tooltip } from "recharts";
 import { PieChart } from "react-minimal-pie-chart";
 import { useRouter } from "next/navigation";
-import { Link } from "lucide-react";
+import Link from "next/link";
 
 const Graph = ({ chartPrices }) => {
   const [chartWidth, setChartWidth] = useState(0);

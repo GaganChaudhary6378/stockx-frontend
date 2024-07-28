@@ -6,7 +6,7 @@ import { AiOutlineBars } from "react-icons/ai";
 import moment from "moment";
 import { LineChart, Line, YAxis, Tooltip } from "recharts";
 import { useRouter } from "next/navigation";
-
+import Link from "next/link";
 const Graph = ({ chartPrices }) => {
   const [chartWidth, setChartWidth] = useState(0);
   const containerRef = useRef(null);

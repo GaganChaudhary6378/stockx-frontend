@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import fetchCoins from "@/components/fetchCoins";
 import { toggleState } from "@/components/store/gptSlice";
-
+import Link from "next/link";
 const TradingViewWidget = ({ width, height }) => {
   const containerRef = useRef(null);
 
