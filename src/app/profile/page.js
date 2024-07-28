@@ -79,6 +79,7 @@ export default function Profile() {
 
   const LogoutHandler =()=>{
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("user");
     router.push("/login")
   }
 
