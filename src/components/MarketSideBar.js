@@ -47,14 +47,20 @@ const MarketSideBar = ({ page }) => {
 
   useEffect(() => {
     // if (coins.length > 0 && activeIndex !== null) {
-    dispatch(addCoin(coins[activeIndex]));
+    if (coins) {
+      dispatch(addCoin(coins[activeIndex]));
+    }
+
     // }
   }, [coins, activeIndex, dispatch]);
 
   useEffect(() => {
-    const filtered = coins.filter((coin) =>
-      coin.name.toLowerCase().includes(searchCoin.toLowerCase())
-    );
+    let filtered;
+    if (coins) {
+      filtered = coins?.filter((coin) =>
+        coin.name.toLowerCase().includes(searchCoin.toLowerCase())
+      );
+    }
     setFilteredCoins(filtered);
   }, [searchCoin, coins]);
 
