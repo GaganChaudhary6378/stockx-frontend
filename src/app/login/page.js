@@ -6,10 +6,12 @@ import { FaGoogle } from "react-icons/fa";
 import toast, { Toaster } from 'react-hot-toast';
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { useState } from "react";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [otp, setOtp] = useState(0);
     const [index, setIndex] = useState(0);
     const [checked, setChecked] = useState();
     const [visible, setVisible] = useState(false);
@@ -17,9 +19,14 @@ export default function Login() {
     console.log(email, "email");
     console.log(password, "pass");
 
-    const obj = {
+    const obj1 = {
         email: email,
         password: password,
+    }
+
+    const obj2 = {
+        email: email,
+        otp: otp,
     }
 
     const submitdata = async () => {
@@ -29,26 +36,41 @@ export default function Login() {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(obj),
+            body: JSON.stringify(obj1),
         })
         if (res.ok) {
             setTimeout(() => {
-                toast.success("User registered successfully")
+                toast.success("Enter OTP")
             }, 2000); // add a 2-second delay
-            setIndex(0);
+            setIndex(2);
         }
     };
 
+    const verifyOTP = async () => {
+        const res = await fetch("http://localhost:8001/api/v1/users/verify", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(obj2),
+        })
+        if (res.ok) {
+            setTimeout(() => {
+                toast.success("User registered successfully.")
+            }, 2000); // add a 2-second delay
+            setIndex(0);
+        }
+    }
 
     const loginUser = async () => {
         console.log("login function clicked");
         try {
-            const res = await fetch("http://localhost:8001/api/v1/users/login", {
+            const res = await fetch("https://stockx-backend.vercel.app/api/v1/users/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(obj),
+                body: JSON.stringify(obj1),
             });
             if (res.ok) {
                 const data = await res.json(); // Convert the readable stream to JSON
@@ -62,10 +84,10 @@ export default function Login() {
                     localStorage.setItem("accessToken", data.data.accessToken);
                     localStorage.setItem("refreshToken", data.data.refreshToken);
                 }
-
+                setIndex(0);
                 router.push("/profile");
 
-                setIndex(0);
+
             } else {
                 // Handle errors
                 const errorData = await res.json(); // Convert the readable stream to JSON
@@ -88,13 +110,14 @@ export default function Login() {
             <div className="w-1/2 bg-signUp hidden md:block">
 
             </div>
-            <div className="md:w-1/2 flex justify-center items-center bg-[#1D2939] w-screen">
+            <div className="md:w-1/2 flex justify-center md:items-center items-start bg-[#1D2939] w-screen">
                 <div className="md:w-[516px] w-screen bg-transparent flex flex-col justify-center items-start p-3 md:gap-0 gap-9">
                     {/* Tabs */}
-                    <div className="md:w-full w-full h-fit bg-[#101828] rounded-md p-2 text-white font-bold text-[16px]">
+                    <IoMdArrowRoundBack color="white" className="text-3xl mt-2 md:hidden block" onClick={() => history.back()}/>
+                    <div className="md:w-full w-full h-fit bg-[#101828] rounded-md p-2 text-white  size=font-bold text-[16px]">
                         <div className="">
                             <button className={`${index == 0 ? 'bg-[#613DE4]' : 'border border-solid-[8px] border-[#475467] '} w-1/2 h-9 rounded-l-md`} onClick={(e) => setIndex(0)}>Sign In</button>
-                            <button className={`${index == 1 ? 'bg-[#613DE4] ' : 'border border-solid-[8px] border-[#475467]'} w-1/2 h-9 rounded-r-md`} onClick={(e) => setIndex(1)}>Sign Up</button>
+                            <button className={`${index === 1 || index === 2 ? 'bg-[#613DE4] ' : 'border border-solid-[8px] border-[#475467]'} w-1/2 h-9 rounded-r-md`} onClick={(e) => setIndex(1)}>Sign Up</button>
                         </div>
 
                     </div>
@@ -130,7 +153,7 @@ export default function Login() {
                             </div>
 
                         )
-                            : (
+                            : index == 1 ? (
 
                                 <div className="space-y-5 flex flex-col items-start w-full">
                                     <h2 className="font-bold text-white text-3xl">Get Started Now</h2>
@@ -153,12 +176,24 @@ export default function Login() {
 
                                         </div>
 
-                                        <button className="bg-[#613DE4] rounded-md w-full text-white h-fit p-2" onClick={submitdata}>Get started</button>
+                                        <button className="bg-[#613DE4] rounded-md w-full text-white h-fit p-2" onClick={submitdata}>Generate OTP</button>
 
                                         <div className="text-white text-center">or</div>
                                         <button className="bg-[#101828] rounded-md w-full text-white h-fit p-2 flex flex-row gap-4 justify-center items-center"><FaGoogle />Sign in with Google</button>
 
                                     </div>
+                                </div>
+                            ) : (
+                                <div className="flex flex-col gap-5">
+                                    <h2 className="font-bold text-white text-3xl">Verify OTP</h2>
+                                    <div className="space-y-3">
+                                        <p className="text-white">Enter OTP</p>
+                                        <div className="border border-solid-[8px] border-[#475467] w-full p-2 text-white flex flex-row gap-4 justify-between items-center">
+                                            <input type="number" placeholder="Enter OTP" className="outline-none bg-transparent md:w-80 no-spinner" onChange={(e) => setOtp(e.target.value)} />
+                                            <button className="bg-[#613DE4] rounded-md text-white w-fit p-2" onClick={verifyOTP}>Verify OTP</button>
+                                        </div>
+                                    </div>
+
                                 </div>
                             )
                         }
