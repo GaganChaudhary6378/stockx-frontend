@@ -11,20 +11,39 @@ import { useSelector } from "react-redux";
 
 const Chat = () => {
     const router = useRouter();
-    const {coin,gpt} = useSelector((store)=> store)
+    const { coin, gpt } = useSelector((store) => store)
+    const [user , setUser] = useState({});
 
-    useEffect(()=>{
-        const key=localStorage.getItem("accessToken")
-        if(key==null){
-          router.push("/login")
+
+    useEffect(() => {
+        const key = localStorage.getItem("accessToken");
+        if (key == null) {
+            router.push("/login")
         }
-    },[])
+        async function getUser() {
+            const res = await fetch("http://localhost:8001/api/v1/users/getUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${key}`,
+                },
+            })
+            const data = await res.json();
+            setUser(data?.data);
+        }
 
-    useEffect(()=>{
-      if(gpt){
-        setContent(JSON.stringify(coin))
-      }
-    },[])
+        getUser();
+    }, []);
+
+    console.log(user);
+
+    useEffect(() => {
+        if (gpt) {
+            setContent(JSON.stringify(coin))
+        }
+    }, [])
+
+
 
 
     const [content, setContent] = useState("");
@@ -59,7 +78,7 @@ const Chat = () => {
                     {/* headings */}
                     <div className="flex flex-col gap-11 mb-10 md:p-0 p-4">
                         <div className="space-y-4">
-                            <h1 className="text-4xl font-bold">Hello, {username}</h1>
+                            <h1 className="text-4xl font-bold flex flex-wrap text-wrap max-w-screen-sm">Hello, {user?.username?.split('@')[0]}</h1>
                             <div className="text-4xl text-gray-700 font-bold">
                                 <ReactTyped strings={["Get your customized suggestion from Stockx AI."]} typeSpeed={100} />
                             </div>
@@ -68,7 +87,7 @@ const Chat = () => {
                         <div className="flex md:flex-row flex-col gap-3">
                             {obj.map((item, index) => (
                                 <div className="bg-[#2b2b4d69] md:h-44 md:w-fit p-5 md:max-w-64 text-l font-mono rounded-md hover:cursor-pointer" key={index}>
-                                    <p onClick={()=> setContent(item?.content)}>{item?.content}</p>
+                                    <p onClick={() => setContent(item?.content)}>{item?.content}</p>
                                 </div>
                             ))}
                         </div>
@@ -97,7 +116,7 @@ const Chat = () => {
                 </div>
             </div>
         ) : (
-            <UserChat gpt={gpt} content={content} setContent={setContent}/>
+            <UserChat gpt={gpt} content={content} setContent={setContent} />
         ))
     );
 };
