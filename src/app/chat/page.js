@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 const Chat = () => {
     const router = useRouter();
     const { coin, gpt } = useSelector((store) => store)
-    const [user , setUser] = useState({});
+    const [user, setUser] = useState({});
 
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const Chat = () => {
             router.push("/login")
         }
         async function getUser() {
-            const res = await fetch("http://localhost:8001/api/v1/users/getUser", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCTION_BACKEND_URL}/api/v1/users/getUser`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -73,8 +73,9 @@ const Chat = () => {
 
     return (
         (currentPage === 0 ? (
-            <div className="flex flex-col justify-start items-center min-h-screen w-screen gap-4 bg-black text-white">
-                <div className="bg-hero flex flex-col justify-between items-center w-full md:pt-[10rem] pt-[3rem]">
+            <div className="flex flex-col justify-start md:items-center min-h-screen w-screen gap-4 bg-black text-white">
+                <IoMdArrowRoundBack color="white" className="text-3xl mt-2 md:hidden block m-2" onClick={() => history.back()} />
+                <div className="bg-hero flex flex-col justify-between items-center w-full md:pt-[10rem]">
                     {/* headings */}
                     <div className="flex flex-col gap-11 mb-10 md:p-0 p-4">
                         <div className="space-y-4">
